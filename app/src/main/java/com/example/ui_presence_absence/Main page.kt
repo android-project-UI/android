@@ -129,13 +129,12 @@ fun MainPage(){
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally) {
 
-                val imageRes = painterResource(id = R.drawable.person)
+                val imageRes = painterResource(id = R.drawable.user)
                 Image(painter = imageRes, contentDescription = "",
                     modifier = Modifier
-                        .width(180.dp)
-                        .height(180.dp)
+                        .width(140.dp)
+                        .height(140.dp)
                         .border(2.dp, MaterialTheme.colorScheme.background, CircleShape))
-
 
             }
         }
