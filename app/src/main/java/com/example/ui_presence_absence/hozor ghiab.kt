@@ -18,9 +18,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,6 +60,8 @@ fun hozorGhiab(){
         "993623032" to "کیانا چکناواریان",
         "993623035" to "علی همدانی",
         "993623037" to "علی همدانی")
+
+    var checked by remember { mutableStateOf(true) }
 
 
 
@@ -182,7 +189,7 @@ fun hozorGhiab(){
             Column(
                 modifier = Modifier
                     .width(screenWidth.dp)
-                    .height(400.dp)
+                    .height(480.dp)
                     .padding(vertical = 10.dp, horizontal = 1.dp)
                     .border(1.dp, Color.Black, shape = RoundedCornerShape(15.dp))
                     .background(
@@ -206,9 +213,17 @@ fun hozorGhiab(){
                         horizontalArrangement = Arrangement.End
                     ) {
 
+
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Checkbox(checked = checked, onCheckedChange = { checked = it }
+                            )
+                        }
+
                         Column(
                             modifier = Modifier
-                                .width(150.dp)
+                                .width(280.dp)
                                 .padding(5.dp),
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.End
