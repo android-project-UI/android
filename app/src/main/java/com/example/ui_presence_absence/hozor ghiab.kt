@@ -18,7 +18,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -41,7 +43,7 @@ fun hozorGhiab(){
 
     val sessionName = "ساختمان های داده"
     val sessionNumber = 7
-    val sessionDate = "9/10/1402"
+    val sessionDate = "تاریخ: " + "1402/9/2"
 
 
 
@@ -71,7 +73,7 @@ fun hozorGhiab(){
             Text(text = "حضور و غیاب",
                 style = TextStyle(fontSize = 25.sp,
                     fontFamily = FontFamily(font),
-                    fontWeight = FontWeight(400),
+                    fontWeight = FontWeight(200),
                     color = Color(0xFFFFFFFF),
                     textAlign = TextAlign.Right)
             )
@@ -80,8 +82,65 @@ fun hozorGhiab(){
         // body initialization
         Column(modifier = Modifier
             .width(screenWidth.dp)
-            .height(bodyHeight.dp))
+            .height(bodyHeight.dp)
+            .padding(10.dp))
         {
+
+            Row(modifier = Modifier
+                .width(screenWidth.dp)
+                .height(100.dp)
+                .border (1.dp,Color.Black, shape = RoundedCornerShape(15.dp))
+                .background(color = Color(0xFFD9D9D9), shape = RoundedCornerShape(15.dp))
+                ,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically){
+
+                Column(modifier = Modifier.width(140.dp)
+                    .padding(10.dp)) {
+
+                    Column(modifier = Modifier.width(70.dp)
+                                            .height(70.dp)
+                                            .background(color = Color(0xFFF5F5F5),
+                                                        shape = RoundedCornerShape(15.dp)),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ){
+
+                        Text(text = sessionNumber.toString(),
+                            style = TextStyle(fontSize = 20.sp,
+                                            fontFamily = FontFamily(font),
+                                            fontWeight = FontWeight(400),
+                                            color = Color(0xFF000000),
+                                            textAlign = TextAlign.Center,
+                            ))
+                        Text(text = "جلسه",
+                            style = TextStyle(fontSize = 15.sp,
+                                fontFamily = FontFamily(font),
+                                fontWeight = FontWeight(400),
+                                color = Color(0xFF000000),
+                                textAlign = TextAlign.Center,
+                            ))
+                    }
+                }
+
+                Column(modifier = Modifier
+                    .width(250.dp)
+                    .padding(10.dp),
+                    horizontalAlignment = Alignment.End) {
+
+                    Text(text = sessionName, style = TextStyle(fontSize = 25.sp,
+                                                            fontFamily = FontFamily(font),
+                                                            fontWeight = FontWeight(400),
+                                                            color = Color(0xFF000000),
+                                                            textAlign = TextAlign.Right))
+
+                    Text(text = sessionDate, style = TextStyle(fontSize = 18.sp,
+                                                                fontFamily = FontFamily(font),
+                                                                fontWeight = FontWeight(400),
+                                                                color = Color(0xFF000000),
+                                                                textAlign = TextAlign.Right))
+                }
+            }
         }
 
 
