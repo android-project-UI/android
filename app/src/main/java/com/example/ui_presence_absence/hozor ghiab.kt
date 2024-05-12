@@ -59,7 +59,8 @@ fun hozorGhiab(){
         "993623031" to "محمد همدانی",
         "993623032" to "کیانا چکناواریان",
         "993623035" to "علی همدانی",
-        "993623037" to "علی همدانی")
+        "993623037" to "علی همدانی",
+        "993623041" to "نیما حسینی")
 
     var checked by remember { mutableStateOf(true) }
 
@@ -263,6 +264,24 @@ fun hozorGhiab(){
                             )
                         }
                     }
+                }
+            }
+
+            Row(modifier = Modifier.width(screenWidth.dp)
+                .height(90.dp)) {
+                Button(onClick = { /*TODO*/ },
+                    modifier = Modifier
+                        .width(screenWidth.dp)
+                        .height(250.dp),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary,
+                        contentColor = MaterialTheme.colorScheme.onSecondary)
+                ) {
+                    Text(text = "اعمال", style = TextStyle(fontSize = 28.sp,
+                                                        fontFamily = FontFamily(font),
+                                                        fontWeight = FontWeight(400),
+                                                        color = MaterialTheme.colorScheme.onSecondary,
+                                                        textAlign = TextAlign.Center))
                 }
             }
         }
