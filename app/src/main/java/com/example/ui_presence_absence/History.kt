@@ -2,6 +2,7 @@ package com.example.ui_presence_absence
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -88,7 +89,79 @@ fun history(){
             .width(screenWidth.dp)
             .height(bodyHeight.dp)
             .padding(10.dp))
-        {}
+        {
+
+
+            // class information
+            Row(modifier = Modifier.width(screenWidth.dp)
+                                    .height(100.dp)
+                                    .border(1.dp, Color.Black, shape = RoundedCornerShape(15.dp))
+                                    .background(color = Color(0xFFD9D9D9),
+                                                shape = RoundedCornerShape(15.dp)),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Column(
+                    modifier = Modifier
+                        .width(140.dp)
+                        .padding(10.dp)
+                ) {
+
+                    Column(
+                        modifier = Modifier
+                            .width(70.dp)
+                            .height(70.dp)
+                            .background(
+                                color = Color(0xFFF5F5F5),
+                                shape = RoundedCornerShape(15.dp)
+                            ),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+
+                        Text(
+                            text = numberOfStudents.toString(),
+                            style = TextStyle(
+                                fontSize = 20.sp,
+                                fontFamily = FontFamily(font),
+                                fontWeight = FontWeight(400),
+                                color = Color(0xFF000000),
+                                textAlign = TextAlign.Center,
+                            )
+                        )
+                        Text(
+                            text = "اعضا",
+                            style = TextStyle(
+                                fontSize = 15.sp,
+                                fontFamily = FontFamily(font),
+                                fontWeight = FontWeight(400),
+                                color = Color(0xFF000000),
+                                textAlign = TextAlign.Center,
+                            )
+                        )
+                    }
+                }
+
+                Column(
+                    modifier = Modifier
+                        .width(250.dp)
+                        .padding(10.dp),
+                    horizontalAlignment = Alignment.End
+                ) {
+
+                    Text(
+                        text = sessionName, style = TextStyle(
+                            fontSize = 25.sp,
+                            fontFamily = FontFamily(font),
+                            fontWeight = FontWeight(400),
+                            color = Color(0xFF000000),
+                            textAlign = TextAlign.Right
+                        )
+                    )
+                }
+            }
+        }
 
 
 
