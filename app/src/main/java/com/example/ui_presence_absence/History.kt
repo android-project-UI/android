@@ -8,9 +8,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -93,11 +97,14 @@ fun history(){
 
 
             // class information
-            Row(modifier = Modifier.width(screenWidth.dp)
-                                    .height(100.dp)
-                                    .border(1.dp, Color.Black, shape = RoundedCornerShape(15.dp))
-                                    .background(color = Color(0xFFD9D9D9),
-                                                shape = RoundedCornerShape(15.dp)),
+            Row(modifier = Modifier
+                .width(screenWidth.dp)
+                .height(100.dp)
+                .border(1.dp, Color.Black, shape = RoundedCornerShape(15.dp))
+                .background(
+                    color = Color(0xFFD9D9D9),
+                    shape = RoundedCornerShape(15.dp)
+                ),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -159,6 +166,90 @@ fun history(){
                             textAlign = TextAlign.Right
                         )
                     )
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .width(screenWidth.dp)
+                    .height(520.dp)
+                    .padding(vertical = 10.dp, horizontal = 1.dp)
+                    .border(1.dp, Color.Black, shape = RoundedCornerShape(15.dp))
+                    .background(
+                        color = MaterialTheme.colorScheme.background,
+                        shape = RoundedCornerShape(15.dp)
+                    )
+                    .verticalScroll(rememberScrollState()),
+            ) {
+
+                for (i in 1..sessionStatistics.size) {
+                    Row(
+                        modifier = Modifier
+                            .width(390.dp)
+                            .height(85.dp)
+                            .padding(5.dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.onBackground,
+                                shape = RoundedCornerShape(15.dp)
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+
+
+                        Column(modifier = Modifier.width(60.dp)
+                                                    .height(60.dp)
+                                                    .background(color = Color(0xFFF5F5F5),
+                                                                shape = RoundedCornerShape(15.dp)),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+
+                            Text(text = sessionStatistics[i].toString(),
+                                style = TextStyle(fontSize = 20.sp,
+                                    fontFamily = FontFamily(font),
+                                    fontWeight = FontWeight(400),
+                                    color = Color(0xFF000000),
+                                    textAlign = TextAlign.Center))
+
+
+                            Text(text = "حاضرین", style = TextStyle(fontSize = 12.sp,
+                                                                    fontFamily = FontFamily(font),
+                                                                    fontWeight = FontWeight(400),
+                                                                    color = Color(0xFF000000),
+                                                                    textAlign = TextAlign.Center))
+                        }
+
+                        Column(
+                            modifier = Modifier
+                                .width(310.dp)
+                                .padding(5.dp),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.End
+                        ) {
+                            Text(
+                                text = i.toString() + "جلسه ",
+                                style = TextStyle(
+                                    fontSize = 20.sp,
+                                    fontFamily = FontFamily(font),
+                                    fontWeight = FontWeight(400),
+                                    color = Color(0xFF000000),
+                                    textAlign = TextAlign.Right
+                                )
+                            )
+
+                            Text(
+                                text = "تاریخ: " + sessionDate[i],
+                                style = TextStyle(
+                                    fontSize = 15.sp,
+                                    fontFamily = FontFamily(font),
+                                    fontWeight = FontWeight(400),
+                                    color = Color(0xFF000000),
+                                    textAlign = TextAlign.Right
+                                )
+                            )
+                        }
+                    }
                 }
             }
         }
