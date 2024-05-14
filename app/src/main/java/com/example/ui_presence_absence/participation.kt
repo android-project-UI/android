@@ -53,7 +53,7 @@ fun Participation(){
 
 
     val sessionName = "ساختمان های داده"
-    val sessionNumber = 6
+    val numberOfSessions = 6
     val sessionDate = "تاریخ: " + "1402/10/9"
 
     val studentMap = mapOf("993623030" to "علیرضا کریمی",
@@ -62,6 +62,7 @@ fun Participation(){
         "993623035" to "علی همدانی",
         "993623037" to "علی همدانی",
         "993623041" to "نیما حسینی")
+
 
 
     Column(modifier = Modifier
@@ -133,7 +134,7 @@ fun Participation(){
                     ) {
 
                         Text(
-                            text = sessionNumber.toString(),
+                            text = numberOfSessions.toString(),
                             style = TextStyle(
                                 fontSize = 20.sp,
                                 fontFamily = FontFamily(font),
@@ -143,7 +144,7 @@ fun Participation(){
                             )
                         )
                         Text(
-                            text = "جلسه",
+                            text = "جلسات",
                             style = TextStyle(
                                 fontSize = 15.sp,
                                 fontFamily = FontFamily(font),
