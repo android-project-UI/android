@@ -56,6 +56,13 @@ fun Participation(){
     val sessionNumber = 6
     val sessionDate = "تاریخ: " + "1402/10/9"
 
+    val studentMap = mapOf("993623030" to "علیرضا کریمی",
+        "993623031" to "محمد همدانی",
+        "993623032" to "کیانا چکناواریان",
+        "993623035" to "علی همدانی",
+        "993623037" to "علی همدانی",
+        "993623041" to "نیما حسینی")
+
 
     Column(modifier = Modifier
         .width(screenWidth.dp)
@@ -189,7 +196,71 @@ fun Participation(){
                         shape = RoundedCornerShape(15.dp)
                     )
                     .verticalScroll(rememberScrollState()),
-            ) {}
+            ) {
+                for (key in studentMap.keys) {
+                    Row(
+                        modifier = Modifier
+                            .width(390.dp)
+                            .height(100.dp)
+                            .padding(5.dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.onBackground,
+                                shape = RoundedCornerShape(10.dp)
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+
+
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                        }
+
+                        Column(
+                            modifier = Modifier
+                                .width(280.dp)
+                                .padding(5.dp),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.End
+                        ) {
+                            Text(
+                                text = "${studentMap[key]}",
+                                style = TextStyle(
+                                    fontSize = 20.sp,
+                                    fontFamily = FontFamily(font),
+                                    fontWeight = FontWeight(400),
+                                    color = Color(0xFF000000),
+                                    textAlign = TextAlign.Right
+                                )
+                            )
+
+                            Text(
+                                text = "$key",
+                                style = TextStyle(
+                                    fontSize = 15.sp,
+                                    fontFamily = FontFamily(font),
+                                    fontWeight = FontWeight(400),
+                                    color = Color(0xFF000000),
+                                    textAlign = TextAlign.Right
+                                )
+                            )
+                        }
+
+                        Column(
+                            modifier = Modifier
+                                .width(60.dp)
+                                .padding(5.dp)
+                        ) {
+                            val studentImage = painterResource(id = R.drawable.user)
+                            Image(
+                                painter = studentImage, contentDescription = "",
+                                modifier = Modifier.size(56.dp)
+                            )
+                        }
+                    }
+                }
+            }
         }
 
 
