@@ -9,6 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.ui_presence_absence.Pages.ShowClass
 import com.example.ui_presence_absence.Pages.ShowListOfClasses
+import com.example.ui_presence_absence.Pages.history
 import com.example.ui_presence_absence.ui.theme.Ui_presence_absenceTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     // MainPage()
 //                    ShowListOfClasses()
-                    ShowClass()
+//                    ShowClass()
                 }
             }
         }
