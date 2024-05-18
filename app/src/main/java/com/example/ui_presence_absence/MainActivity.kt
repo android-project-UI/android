@@ -22,8 +22,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     // MainPage()
-                    ShowListOfClasses()
-//                    ShowClass()
+//                    ShowListOfClasses()
+                    ShowClass()
                 }
             }
         }

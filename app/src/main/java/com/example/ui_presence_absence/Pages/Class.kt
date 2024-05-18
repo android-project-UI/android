@@ -79,7 +79,7 @@ fun ShowClass() {
                     fontSize = 25.sp,
                     fontWeight = FontWeight(400),
                     textAlign = TextAlign.Right,
-                    color = MaterialTheme.colorScheme.onSecondary
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             )
         }
@@ -173,7 +173,7 @@ fun ShowClass() {
         Row(
             modifier = Modifier
                 .width(screenWidth.dp)
-                .height(482.dp)
+                .height(460.dp)
         ) {
             Column(
                 modifier = Modifier
@@ -185,7 +185,7 @@ fun ShowClass() {
                 Row(
                     modifier = Modifier
                         .width(screenWidth.dp)
-                        .height(150.dp)
+                        .height(180.dp)
                         .padding(10.dp),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
@@ -193,7 +193,7 @@ fun ShowClass() {
                     Button(
                         onClick = { /*TODO*/ },
                         modifier = Modifier
-                            .height(150.dp)
+                            .height(180.dp)
                             .width(screenWidth.dp),
                         shape = RoundedCornerShape(20.dp),
                         colors = ButtonDefaults.buttonColors(
@@ -215,7 +215,7 @@ fun ShowClass() {
                 Row(
                     modifier = Modifier
                         .width(screenWidth.dp)
-                        .height(150.dp)
+                        .height(180.dp)
                         .padding(10.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
@@ -223,7 +223,7 @@ fun ShowClass() {
                     Button(
                         onClick = { /*TODO*/ },
                         modifier = Modifier
-                            .height(150.dp)
+                            .height(180.dp)
                             .width(screenWidth.dp / 2 - 20.dp),
                         shape = RoundedCornerShape(20.dp),
                         colors = ButtonDefaults.buttonColors(
@@ -243,7 +243,7 @@ fun ShowClass() {
                     Button(
                         onClick = { /*TODO*/ },
                         modifier = Modifier
-                            .height(150.dp)
+                            .height(180.dp)
                             .width(screenWidth.dp / 2 - 20.dp),
                         shape = RoundedCornerShape(20.dp),
                         colors = ButtonDefaults.buttonColors(
