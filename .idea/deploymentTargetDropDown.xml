@@ -2,6 +2,12 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="EditPage">
+        <State />
+      </entry>
+      <entry key="Setting">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>
