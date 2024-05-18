@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     // MainPage()
                     ShowListOfClasses()
-                   // ShowClass()
+//                    ShowClass()
                 }
             }
         }

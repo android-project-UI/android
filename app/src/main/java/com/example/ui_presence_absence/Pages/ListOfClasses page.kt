@@ -74,12 +74,12 @@ fun ShowListOfClasses() {
             }
 
             Text(
-                text = "لیست کلاس ها", style = androidx.compose.ui.text.TextStyle(
+                text = "لیست کلاس ها", style = TextStyle(
                     fontFamily = FontFamily(font),
                     fontSize = 25.sp,
                     fontWeight = FontWeight(400),
                     textAlign = TextAlign.Right,
-                    color = MaterialTheme.colorScheme.onSecondary
+                    color = Color(0xFFFFFFFF)
                 )
             )
         }
@@ -87,7 +87,7 @@ fun ShowListOfClasses() {
         //Body
         Row(
             modifier = Modifier
-                .height(705.dp)
+                .height(680.dp)
                 .width(screenWidth.dp)
 
         ) {
@@ -105,23 +105,23 @@ fun ShowListOfClasses() {
                         modifier = Modifier
                             .border(2.dp, color = Color(0xFF000000), shape = RoundedCornerShape(20.dp))
                             .width(380.dp)
-                            .height(100.dp),
+                            .height(120.dp),
                         shape = RoundedCornerShape(20.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.secondary,
+                            containerColor = MaterialTheme.colorScheme.onBackground,
                         ),
                     ) {
                         Row(
                             modifier = Modifier
                                 .width(380.dp)
-                                .height(100.dp),
+                                .height(120.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Column(
                                 modifier = Modifier
-                                    .width(60.dp)
-                                    .height(60.dp)
+                                    .width(68.dp)
+                                    .height(68.dp)
                                     .background(
                                         color = Color(0xFFF5F5F5),
                                         shape = RoundedCornerShape(15.dp)
