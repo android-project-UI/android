@@ -34,10 +34,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.example.ui_presence_absence.Destination
+import com.example.ui_presence_absence.MainActivity
 import com.example.ui_presence_absence.R
 
 @Composable
-fun ShowClass() {
+fun ShowClass(navController: NavController) {
 
     //Constant variable
     val screenHeight = 740
@@ -66,7 +70,7 @@ fun ShowClass() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { navController.popBackStack() }) {
                 Icon(
                     painter = backIconRes,
                     contentDescription = "back icon",
@@ -191,7 +195,7 @@ fun ShowClass() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = { navController.navigate(Destination.HozorGhiab.route) },
                         modifier = Modifier
                             .height(180.dp)
                             .width(screenWidth.dp),
@@ -221,7 +225,7 @@ fun ShowClass() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = { navController.navigate(Destination.History.route) },
                         modifier = Modifier
                             .height(180.dp)
                             .width(screenWidth.dp / 2 - 20.dp),
@@ -241,7 +245,7 @@ fun ShowClass() {
                         )
                     }
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = { navController.navigate(Destination.Participation.route) },
                         modifier = Modifier
                             .height(180.dp)
                             .width(screenWidth.dp / 2 - 20.dp),
@@ -279,13 +283,17 @@ fun ShowClass() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = {
+                val activity: MainActivity = MainActivity()
+                activity.finish()
+                System.exit(0)
+            }) {
                 Icon(painter = exitIconRes, contentDescription = "Exit Icon")
             }
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { navController.navigate(Destination.MainPage.route)}) {
                 Icon(painter = homeIconRes, contentDescription = "Home Icon")
             }
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { navController.navigate(Destination.Setting.route) }) {
                 Icon(painter = settingIconRes, contentDescription = "Setting Icon")
             }
         }

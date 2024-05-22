@@ -29,10 +29,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.ui_presence_absence.Destination
+import com.example.ui_presence_absence.MainActivity
 import com.example.ui_presence_absence.R
 
 @Composable
-fun ShowListOfClasses() {
+fun ShowListOfClasses(navController: NavController) {
 
     //Constant variable
     val screenHeight = 740
@@ -66,7 +69,7 @@ fun ShowListOfClasses() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { navController.popBackStack() }) {
                 Icon(
                     painter = backIconRes,
                     contentDescription = "back icon",
@@ -101,9 +104,13 @@ fun ShowListOfClasses() {
             ) {
                 for (i in 1..numberOfClasses) {
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = { navController.navigate(Destination.EachClass.route) },
                         modifier = Modifier
-                            .border(2.dp, color = Color(0xFF000000), shape = RoundedCornerShape(20.dp))
+                            .border(
+                                2.dp,
+                                color = Color(0xFF000000),
+                                shape = RoundedCornerShape(20.dp)
+                            )
                             .width(380.dp)
                             .height(120.dp),
                         shape = RoundedCornerShape(20.dp),
@@ -201,13 +208,17 @@ fun ShowListOfClasses() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = {
+                val activity: MainActivity = MainActivity()
+                activity.finish()
+                System.exit(0)
+            }) {
                 Icon(painter = exitIconRes, contentDescription = "Exit Icon")
             }
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { navController.navigate(Destination.MainPage.route) }) {
                 Icon(painter = homeIconRes, contentDescription = "Home Icon")
             }
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { navController.navigate(Destination.Setting.route) }) {
                 Icon(painter = settingIconRes, contentDescription = "Setting Icon")
             }
         }
