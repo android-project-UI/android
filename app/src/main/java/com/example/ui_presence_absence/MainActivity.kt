@@ -46,21 +46,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Ui_presence_absenceTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
-                /*    object : CountDownTimer(5000, 1000) {
-                        override fun onTick(millisUntilFinished: Long) {}
-                        override fun onFinish() {
-                            showWelcomePage = false
-                        }
-                    }.start()
-                    if (showWelcomePage) {
-                        Welcome()
-                    }*/
                     val navController = rememberNavController()
                     NavigationAppHost(navController = navController)
                 }
