@@ -21,6 +21,14 @@ class Lesson(val id: String, val lessonName: String, var master: Master, val les
     fun addStudent(student: Student){
         this.allStudents.add(student)
     }
+
+    fun getNumberOfSessions(): Int {
+        return allSessions.size
+    }
+
+    fun getNumberOfStudents(): Int {
+        return allStudents.size
+    }
 }
 
 fun getLessonOfMaster(master: Master): MutableList<Lesson> {
@@ -31,6 +39,10 @@ fun getLessonOfMaster(master: Master): MutableList<Lesson> {
             lessons.add(lesson)
 
     return lessons
+}
+
+fun getLesson(lessonId: String): Lesson? {
+    return allLessons.get(lessonId)
 }
 
 fun createLesson(){
