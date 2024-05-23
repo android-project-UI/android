@@ -39,7 +39,9 @@ sealed class Destination(val route: String) {
     object MainPage : Destination("MainPage/{masterId}"){
         fun createMasterId(masterId: String) = "MainPage/$masterId"
     }
-    object ListOfClasses : Destination("ListOfClasses")
+    object ListOfClasses : Destination("ListOfClasses/{masterId}"){
+        fun createMasterId(masterId: String) = "ListOfClasses/$masterId"
+    }
     object EachClass : Destination("Class")
     object EditPage : Destination("EditPage")
     object History : Destination("History")
@@ -76,6 +78,7 @@ fun NavigationAppHost(navController: NavHostController) {
         startDestination = Destination.Welcome.route,
         ) {
         composable(Destination.Welcome.route) { Welcome(navController) }
+
         composable(Destination.MainPage.route) {navBackStackEntry ->
               val masterId = navBackStackEntry.arguments?.getString("masterId")
             masterId?.let { MainPage(navController = navController, masterId = it) }
@@ -86,7 +89,12 @@ fun NavigationAppHost(navController: NavHostController) {
         composable(Destination.History.route) { history(navController) }
         composable(Destination.EditPage.route) { EditPage(navController) }
         composable(Destination.HozorGhiab.route) { hozorGhiab(navController) }
-        composable(Destination.ListOfClasses.route) { ShowListOfClasses(navController) }
+
+        composable(Destination.ListOfClasses.route) { navBackStackEntry ->
+            val masterId = navBackStackEntry.arguments?.getString("masterId")
+            masterId?.let { ShowListOfClasses(navController, masterId)}
+        }
+
         composable(Destination.Setting.route) { Setting(navController) }
         composable(Destination.Login.route){ Login(navController)}
     }

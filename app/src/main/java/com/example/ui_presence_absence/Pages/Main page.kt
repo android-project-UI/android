@@ -195,7 +195,9 @@ fun MainPage(navController: NavController, masterId: String) {
             ) {
 
                 Button(
-                    onClick = { navController.navigate(Destination.ListOfClasses.route) },
+                    onClick = {
+                        val route = Destination.ListOfClasses.createMasterId(masterId.toString())
+                        navController.navigate(route) },
                     modifier = Modifier
                         .width(190.dp)
                         .height(250.dp),

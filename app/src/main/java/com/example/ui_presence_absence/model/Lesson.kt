@@ -4,7 +4,8 @@ import kotlin.collections.mutableListOf
 
 val allLessons = mutableMapOf<String, Lesson>()
 
-class Lesson(val id: String, val lessonName: String, val master: Master, lessonUnit: Int){
+class Lesson(val id: String, val lessonName: String, var master: Master, val lessonUnit: Int,
+    val time: String){
 
     private var allSessions = mutableMapOf<String, Session>()
     private var allStudents = mutableListOf<Student>()
@@ -20,6 +21,16 @@ class Lesson(val id: String, val lessonName: String, val master: Master, lessonU
     fun addStudent(student: Student){
         this.allStudents.add(student)
     }
+}
+
+fun getLessonOfMaster(master: Master): MutableList<Lesson> {
+    val lessons = mutableListOf<Lesson>()
+
+    for (lesson in allLessons.values)
+        if(lesson.master == master)
+            lessons.add(lesson)
+
+    return lessons
 }
 
 fun createLesson(){
@@ -44,9 +55,12 @@ fun createLesson(){
     val s15 = getStudent("993623044")
     val s16 = getStudent("993623045")
 
-    val l1 = master1?.let { Lesson("1", "ساختمان های داده", it, 3) }
-    val l2 = master2?.let { Lesson("2", "مبانی هوش مصنوعی", it, 3) }
-    val l3 = master3?.let { Lesson("3", "ریزپردازنده", it, 3) }
+    val l1 = master1?.let { Lesson("1", "ساختمان های داده", it, 3,
+        "شنبه 10-12, یکشنبه 8-10") }
+    val l2 = master2?.let { Lesson("2", "مبانی هوش مصنوعی", it, 3,
+        "دوشنبه 10-12, شنبه 8-10") }
+    val l3 = master3?.let { Lesson("3", "ریزپردازنده", it, 3,
+        "چهارشنبه 10-12") }
 
 
     if (l1 != null) {
