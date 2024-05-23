@@ -147,7 +147,7 @@ fun Login(navController: NavController) {
 
                     if (master != null){
                         masterId = master.id
-                        navController.navigate(Destination.EachClass.route)
+                        navController.navigate(Destination.MainPage.route)
                     }
 
 
