@@ -9,3 +9,7 @@ class Session(var id: String, var title: String, var description: String, var da
         allSessions.put(id, this)
     }
 }
+
+fun getSession(sessionId: String): Session? {
+    return allSessions.get(sessionId)
+}
