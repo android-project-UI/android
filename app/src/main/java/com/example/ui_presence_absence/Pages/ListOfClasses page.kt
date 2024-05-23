@@ -122,14 +122,14 @@ fun ShowListOfClasses(navController: NavController, masterId: String) {
                 for (i in 1..numberOfClasses!!) {
                     Button(
                         onClick = {
-                                    val cls = allClasses.get(1)
-                                    if (cls == null){
-                                        ShowNotFoundToastF(context = mContext)
-                                        val route = Destination.EachClass.createLessonId(cls.id)
-                                        navController.navigate(route)
-                                    }
-                                  },
-
+                            val cls = allClasses.getOrNull(i - 1)
+                            if (cls == null) {
+                                ShowNotFoundToastF(context = mContext)
+                            } else {
+                                val route = Destination.EachClass.createLessonId(cls.id)
+                                navController.navigate(route)
+                            }
+                        },
                         modifier = Modifier
                             .border(
                                 2.dp,
