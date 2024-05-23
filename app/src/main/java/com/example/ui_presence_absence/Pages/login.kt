@@ -1,4 +1,5 @@
 package com.example.ui_presence_absence.Pages
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -47,6 +48,7 @@ import com.example.ui_presence_absence.MainActivity
 import com.example.ui_presence_absence.R
 import com.example.ui_presence_absence.model.getMaster
 
+
 @Preview
 @Composable
 fun Login() {
@@ -61,6 +63,8 @@ fun Login() {
     var password by remember { mutableStateOf("")}
 
     var masterId by remember { mutableStateOf("")}
+
+    val mContext = LocalContext.current
 
 
     Column(
@@ -153,9 +157,12 @@ fun Login() {
             Button(
                 onClick = {
                     val master  = getMaster(username.toString())
-                    if (master != null) {
+
+                    if (master != null)
                         masterId = master.id
-                    }
+
+                    else
+                        ShowNotFoundToast(mContext)
                 },
                 modifier = Modifier
                     .width(screenWidth.dp)
@@ -212,4 +219,8 @@ fun Login() {
             }
         }
     }
+}
+
+fun ShowNotFoundToast(context: Context){
+    Toast.makeText(context, "کاربر یافت نشد", Toast.LENGTH_LONG).show()
 }
