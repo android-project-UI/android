@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -14,15 +15,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,70 +31,92 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.ui_presence_absence.Destination
+import com.example.ui_presence_absence.MainActivity
 import com.example.ui_presence_absence.R
 
 @Preview
 @Composable
-fun hozorGhiab(){
+fun Participation(navController: NavController) {
 
     val screenWidth = 420
-    val screenHeight =  740
+    val screenHeight = 740
     val bodyHeight = 680
+    val CIRCULAR_TIMER_RADIUS = 1
     val font = Font(R.font.koodak)
+    val pageSubject = "مشارکت"
 
 
     val sessionName = "ساختمان های داده"
-    val sessionNumber = 13
-    val sessionDate = "تاریخ: " + "1402/9/2"
+    val numberOfSessions = 6
+    val sessionDate = "تاریخ: " + "1402/10/9"
 
-    val studentMap = mapOf("993623030" to "علیرضا کریمی",
+    val studentMap = mapOf(
+        "993623030" to "علیرضا کریمی",
         "993623031" to "محمد همدانی",
         "993623032" to "کیانا چکناواریان",
         "993623035" to "علی همدانی",
         "993623037" to "علی همدانی",
-        "993623041" to "نیما حسینی")
+        "993623041" to "نیما حسینی"
+    )
 
-    var checked by remember { mutableStateOf(true) }
+    val studentParticipation = mapOf(
+        "993623030" to 0.80f,
+        "993623031" to 0.50f,
+        "993623032" to 1f,
+        "993623035" to 1f,
+        "993623037" to 0.95f,
+        "993623041" to 0.40f
+    )
 
 
 
-    Column(modifier = Modifier
-        .width(screenWidth.dp)
-        .height(screenHeight.dp)) {
+    Column(
+        modifier = Modifier
+            .width(screenWidth.dp)
+            .height(screenHeight.dp)
+    ) {
 
 
         // Header implementation
-        Row(modifier = Modifier
-            .width(screenWidth.dp)
-            .height(60.dp)
-            .background(MaterialTheme.colorScheme.primary)
-            .padding(10.dp),
+        Row(
+            modifier = Modifier
+                .width(screenWidth.dp)
+                .height(60.dp)
+                .background(MaterialTheme.colorScheme.primary)
+                .padding(10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-        ){
+        ) {
 
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { navController.popBackStack() }) {
                 val backRes = painterResource(id = R.drawable.back)
                 Image(painter = backRes, contentDescription = "")
 
             }
 
             // Header title
-            Text(text = "حضور و غیاب",
-                style = TextStyle(fontSize = 25.sp,
+            Text(
+                text = pageSubject,
+                style = TextStyle(
+                    fontSize = 25.sp,
                     fontFamily = FontFamily(font),
                     fontWeight = FontWeight(200),
                     color = Color(0xFFFFFFFF),
-                    textAlign = TextAlign.Right)
+                    textAlign = TextAlign.Right
+                )
             )
         }
 
         // body initialization
-        Column(modifier = Modifier
-            .width(screenWidth.dp)
-            .height(bodyHeight.dp)
-            .padding(10.dp))
+        Column(
+            modifier = Modifier
+                .width(screenWidth.dp)
+                .height(bodyHeight.dp)
+                .padding(10.dp)
+        )
         {
 
             // class information
@@ -131,7 +149,7 @@ fun hozorGhiab(){
                     ) {
 
                         Text(
-                            text = sessionNumber.toString(),
+                            text = numberOfSessions.toString(),
                             style = TextStyle(
                                 fontSize = 20.sp,
                                 fontFamily = FontFamily(font),
@@ -141,7 +159,7 @@ fun hozorGhiab(){
                             )
                         )
                         Text(
-                            text = "جلسه",
+                            text = "جلسات",
                             style = TextStyle(
                                 fontSize = 15.sp,
                                 fontFamily = FontFamily(font),
@@ -186,7 +204,7 @@ fun hozorGhiab(){
             Column(
                 modifier = Modifier
                     .width(screenWidth.dp)
-                    .height(480.dp)
+                    .height(550.dp)
                     .padding(vertical = 10.dp, horizontal = 1.dp)
                     .border(1.dp, Color.Black, shape = RoundedCornerShape(15.dp))
                     .background(
@@ -195,12 +213,11 @@ fun hozorGhiab(){
                     )
                     .verticalScroll(rememberScrollState()),
             ) {
-
                 for (key in studentMap.keys) {
                     Row(
                         modifier = Modifier
                             .width(390.dp)
-                            .height(80.dp)
+                            .height(100.dp)
                             .padding(5.dp)
                             .background(
                                 color = MaterialTheme.colorScheme.onBackground,
@@ -213,100 +230,113 @@ fun hozorGhiab(){
 
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Start
                         ) {
-                            Checkbox(checked = checked, onCheckedChange = { checked = it }
-                            )
-                        }
 
-                        Column(
-                            modifier = Modifier
-                                .width(280.dp)
-                                .padding(5.dp),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.End
-                        ) {
-                            Text(
-                                text = "${studentMap[key]}",
-                                style = TextStyle(
-                                    fontSize = 20.sp,
-                                    fontFamily = FontFamily(font),
-                                    fontWeight = FontWeight(400),
-                                    color = Color(0xFF000000),
-                                    textAlign = TextAlign.Right
+                            Box(contentAlignment = Alignment.Center) {
+                                studentParticipation[key]?.let {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(70.dp),
+                                        color = MaterialTheme.colorScheme.primary,
+                                        trackColor = Color(0xFFD7D7D7),
+                                        strokeWidth = 8.dp,
+                                        progress = it,
+                                    )
+                                }
+
+
+                                Text(
+                                    text = (studentParticipation[key]!! * 100).toInt()
+                                        .toString() + "%", style = TextStyle(
+                                        fontSize = 12.sp,
+                                        fontFamily = FontFamily(font),
+                                        fontWeight = FontWeight(400),
+                                        color = Color(0xFF000000),
+                                        textAlign = TextAlign.Center
+                                    )
                                 )
-                            )
+                            }
 
-                            Text(
-                                text = "$key",
-                                style = TextStyle(
-                                    fontSize = 15.sp,
-                                    fontFamily = FontFamily(font),
-                                    fontWeight = FontWeight(400),
-                                    color = Color(0xFF000000),
-                                    textAlign = TextAlign.Right
+
+                            Column(
+                                modifier = Modifier
+                                    .width(220.dp)
+                                    .padding(5.dp),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.End
+                            ) {
+
+                                Text(
+                                    text = "${studentMap[key]}",
+                                    style = TextStyle(
+                                        fontSize = 20.sp,
+                                        fontFamily = FontFamily(font),
+                                        fontWeight = FontWeight(400),
+                                        color = Color(0xFF000000),
+                                        textAlign = TextAlign.Right
+                                    )
                                 )
-                            )
-                        }
 
-                        Column(
-                            modifier = Modifier
-                                .width(60.dp)
-                                .padding(5.dp)
-                        ) {
-                            val studentImage = painterResource(id = R.drawable.user)
-                            Image(
-                                painter = studentImage, contentDescription = "",
-                                modifier = Modifier.size(56.dp)
-                            )
+                                Text(
+                                    text = "$key",
+                                    style = TextStyle(
+                                        fontSize = 15.sp,
+                                        fontFamily = FontFamily(font),
+                                        fontWeight = FontWeight(400),
+                                        color = Color(0xFF000000),
+                                        textAlign = TextAlign.Right
+                                    )
+                                )
+                            }
+
+                            Column(
+                                modifier = Modifier
+                                    .width(60.dp)
+                                    .padding(5.dp)
+                            ) {
+                                val studentImage = painterResource(id = R.drawable.user)
+                                Image(
+                                    painter = studentImage, contentDescription = "",
+                                    modifier = Modifier.size(56.dp)
+                                )
+                            }
                         }
                     }
-                }
-            }
-
-            Row(modifier = Modifier.width(screenWidth.dp)
-                .height(90.dp)) {
-                Button(onClick = { /*TODO*/ },
-                    modifier = Modifier
-                        .width(screenWidth.dp)
-                        .height(250.dp),
-                    shape = RoundedCornerShape(20.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary,
-                        contentColor = MaterialTheme.colorScheme.onSecondary)
-                ) {
-                    Text(text = "اعمال", style = TextStyle(fontSize = 28.sp,
-                                                        fontFamily = FontFamily(font),
-                                                        fontWeight = FontWeight(400),
-                                                        color = MaterialTheme.colorScheme.onSecondary,
-                                                        textAlign = TextAlign.Center))
                 }
             }
         }
 
 
         // Footer initialization
-        Row(modifier = Modifier
-            .width(screenWidth.dp)
-            .height(80.dp)
-            .background(
-                MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(
-                    topStart = 20.dp,
-                    topEnd = 20.dp
-                )
-            ),
+        Row(
+            modifier = Modifier
+                .width(screenWidth.dp)
+                .height(80.dp)
+                .background(
+                    MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(
+                        topStart = 20.dp,
+                        topEnd = 20.dp
+                    )
+                ),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically) {
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = {
+                val activity: MainActivity = MainActivity()
+                activity.finish()
+                System.exit(0)
+            }) {
                 val exitRes = painterResource(id = R.drawable.exit)
                 Image(painter = exitRes, contentDescription = "")
             }
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { navController.navigate(Destination.MainPage.route) }) {
                 val homeRes = painterResource(id = R.drawable.home)
                 Image(painter = homeRes, contentDescription = "")
             }
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { navController.navigate(Destination.Setting.route)}) {
                 val settingsRes = painterResource(id = R.drawable.settings)
                 Image(painter = settingsRes, contentDescription = "")
             }

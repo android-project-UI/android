@@ -28,14 +28,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.ui_presence_absence.Destination
+import com.example.ui_presence_absence.MainActivity
 import com.example.ui_presence_absence.R
 
 @Preview
 @Composable
-fun history(){
+fun history(navController: NavController) {
 
     val screenWidth = 420
-    val screenHeight =  740
+    val screenHeight = 740
     val bodyHeight = 680
     val font = Font(R.font.koodak)
 
@@ -43,63 +46,76 @@ fun history(){
     val numberOfStudents = 22
 
 
-    val sessionDate = mapOf(1 to "1-7-1402", 2 to "7-7-1402",
+    val sessionDate = mapOf(
+        1 to "1-7-1402", 2 to "7-7-1402",
         3 to "14-7-1402", 4 to "21-7-1402", 5 to "28-7-1402",
-        6 to "5-8-1402")
+        6 to "5-8-1402"
+    )
 
-    val sessionStatistics = mapOf(1 to 20, 2 to 16,
+    val sessionStatistics = mapOf(
+        1 to 20, 2 to 16,
         3 to 20, 4 to 20, 5 to 19,
-        6 to 17)
+        6 to 17
+    )
 
-    Column(modifier = Modifier
-        .width(screenWidth.dp)
-        .height(screenHeight.dp)) {
+    Column(
+        modifier = Modifier
+            .width(screenWidth.dp)
+            .height(screenHeight.dp)
+    ) {
 
 
         // Header implementation
-        Row(modifier = Modifier
-            .width(screenWidth.dp)
-            .height(60.dp)
-            .background(MaterialTheme.colorScheme.primary)
-            .padding(10.dp),
+        Row(
+            modifier = Modifier
+                .width(screenWidth.dp)
+                .height(60.dp)
+                .background(MaterialTheme.colorScheme.primary)
+                .padding(10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-        ){
+        ) {
 
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { navController.popBackStack() }) {
                 val backRes = painterResource(id = R.drawable.back)
                 Image(painter = backRes, contentDescription = "")
 
             }
 
             // Header title
-            Text(text = "تاریخچه",
-                style = TextStyle(fontSize = 25.sp,
+            Text(
+                text = "تاریخچه",
+                style = TextStyle(
+                    fontSize = 25.sp,
                     fontFamily = FontFamily(font),
                     fontWeight = FontWeight(200),
                     color = Color(0xFFFFFFFF),
-                    textAlign = TextAlign.Right)
+                    textAlign = TextAlign.Right
+                )
             )
         }
 
         // body initialization
-        Column(modifier = Modifier
-            .width(screenWidth.dp)
-            .height(bodyHeight.dp)
-            .padding(10.dp))
+        Column(
+            modifier = Modifier
+                .width(screenWidth.dp)
+                .height(bodyHeight.dp)
+                .padding(10.dp)
+        )
         {
 
 
             // class information
-            Row(modifier = Modifier
-                .width(screenWidth.dp)
-                .height(100.dp)
-                .border(1.dp, Color.Black, shape = RoundedCornerShape(15.dp))
-                .background(
-                    color = Color(0xFFD9D9D9),
-                    shape = RoundedCornerShape(15.dp)
-                ),
+            Row(
+                modifier = Modifier
+                    .width(screenWidth.dp)
+                    .height(100.dp)
+                    .border(1.dp, Color.Black, shape = RoundedCornerShape(15.dp))
+                    .background(
+                        color = Color(0xFFD9D9D9),
+                        shape = RoundedCornerShape(15.dp)
+                    ),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -192,27 +208,39 @@ fun history(){
                     ) {
 
 
-                        Column(modifier = Modifier.width(60.dp)
-                                                    .height(60.dp)
-                                                    .background(color = Color(0xFFF5F5F5),
-                                                                shape = RoundedCornerShape(15.dp)),
+                        Column(
+                            modifier = Modifier
+                                .width(60.dp)
+                                .height(60.dp)
+                                .background(
+                                    color = Color(0xFFF5F5F5),
+                                    shape = RoundedCornerShape(15.dp)
+                                ),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
 
-                            Text(text = sessionStatistics[i].toString(),
-                                style = TextStyle(fontSize = 20.sp,
+                            Text(
+                                text = sessionStatistics[i].toString(),
+                                style = TextStyle(
+                                    fontSize = 20.sp,
                                     fontFamily = FontFamily(font),
                                     fontWeight = FontWeight(400),
                                     color = Color(0xFF000000),
-                                    textAlign = TextAlign.Center))
+                                    textAlign = TextAlign.Center
+                                )
+                            )
 
 
-                            Text(text = "حاضرین", style = TextStyle(fontSize = 12.sp,
-                                                                    fontFamily = FontFamily(font),
-                                                                    fontWeight = FontWeight(400),
-                                                                    color = Color(0xFF000000),
-                                                                    textAlign = TextAlign.Center))
+                            Text(
+                                text = "حاضرین", style = TextStyle(
+                                    fontSize = 12.sp,
+                                    fontFamily = FontFamily(font),
+                                    fontWeight = FontWeight(400),
+                                    color = Color(0xFF000000),
+                                    textAlign = TextAlign.Center
+                                )
+                            )
                         }
 
                         Column(
@@ -250,31 +278,36 @@ fun history(){
         }
 
 
-
         // Footer initialization
-        Row(modifier = Modifier
-            .width(screenWidth.dp)
-            .height(80.dp)
-            .background(
-                MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(
-                    topStart = 20.dp,
-                    topEnd = 20.dp
-                )
-            ),
+        Row(
+            modifier = Modifier
+                .width(screenWidth.dp)
+                .height(80.dp)
+                .background(
+                    MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(
+                        topStart = 20.dp,
+                        topEnd = 20.dp
+                    )
+                ),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically) {
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = {
+                val activity: MainActivity = MainActivity()
+                activity.finish()
+                System.exit(0)
+            }) {
                 val exitRes = painterResource(id = R.drawable.exit)
                 Image(painter = exitRes, contentDescription = "")
             }
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = {navController.navigate(Destination.MainPage.route)}) {
                 val homeRes = painterResource(id = R.drawable.home)
                 Image(painter = homeRes, contentDescription = "")
             }
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { navController.navigate(Destination.Setting.route) }) {
                 val settingsRes = painterResource(id = R.drawable.settings)
                 Image(painter = settingsRes, contentDescription = "")
             }
