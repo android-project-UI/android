@@ -1,7 +1,9 @@
 package com.example.ui_presence_absence.Pages
 
+import android.content.Context
 import android.graphics.Paint.Style
 import android.provider.MediaStore.Audio.Radio
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -38,6 +41,8 @@ import com.example.ui_presence_absence.model.getMaster
 
 @Composable
 fun ShowListOfClasses(navController: NavController, masterId: String) {
+
+    val mContext = LocalContext.current
 
     //Constant variable
     val screenHeight = 740
@@ -116,7 +121,15 @@ fun ShowListOfClasses(navController: NavController, masterId: String) {
             ) {
                 for (i in 1..numberOfClasses!!) {
                     Button(
-                        onClick = { navController.navigate(Destination.EachClass.route) },
+                        onClick = {
+                                    val cls = allClasses.get(1)
+                                    if (cls == null){
+                                        ShowNotFoundToastF(context = mContext)
+                                        val route = Destination.EachClass.createLessonId(cls.id)
+                                        navController.navigate(route)
+                                    }
+                                  },
+
                         modifier = Modifier
                             .border(
                                 2.dp,
@@ -238,4 +251,8 @@ fun ShowListOfClasses(navController: NavController, masterId: String) {
 
     }
 
+}
+
+fun ShowNotFoundToastF(context: Context){
+    Toast.makeText(context, "کاربر یافت نشد", Toast.LENGTH_LONG).show()
 }
