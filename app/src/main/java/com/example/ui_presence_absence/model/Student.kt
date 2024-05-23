@@ -1,8 +1,16 @@
 package com.example.ui_presence_absence.model
 
-data class Student(
-    var studentId: String,
-    var fullName: String,
-    var image: String,
-    var presencePercentage: Double
-)
+class Student(val studentId: String, val fullName: String, val image: String,
+              val presencePercentage: Double)
+{
+    private var allStudent = mutableMapOf<String, Student>()
+
+    init {
+        allStudent.put(studentId, this)
+    }
+
+
+    fun getStudent(studentId: String): Student? {
+        return this.allStudent[studentId]
+    }
+}
