@@ -39,9 +39,10 @@ import androidx.navigation.NavHostController
 import com.example.ui_presence_absence.Destination
 import com.example.ui_presence_absence.MainActivity
 import com.example.ui_presence_absence.R
+import com.example.ui_presence_absence.model.getLesson
 
 @Composable
-fun ShowClass(navController: NavController) {
+fun ShowClass(navController: NavController, lessonId: String) {
 
     //Constant variable
     val screenHeight = 740
@@ -51,9 +52,15 @@ fun ShowClass(navController: NavController) {
     val homeIconRes = painterResource(id = R.drawable.home)
     val settingIconRes = painterResource(id = R.drawable.settings)
     val font = Font(R.font.koodak)
-    val lessonName = "ساختمان های داده"
+
+    val lesson = getLesson(lessonId)
+
+    val lessonName = lesson?.lessonName
     val lessonInfo = mapOf(1 to "جلسات", 2 to "دانشجو", 3 to "واحد")
-    val lessonInfoNumbers = mapOf(1 to "7", 2 to "25", 3 to "3")
+    val lessonInfoNumbers = mapOf(1 to lesson?.getNumberOfSessions().toString(),
+                                2 to lesson?.getNumberOfStudents().toString(),
+                                3 to lesson?.lessonUnit.toString())
+
 
     Column(
         modifier = Modifier
@@ -118,16 +125,18 @@ fun ShowClass(navController: NavController) {
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = lessonName,
-                        style = TextStyle(
-                            textAlign = TextAlign.Center,
-                            fontSize = 40.sp,
-                            fontFamily = FontFamily(font),
-                            fontWeight = FontWeight(400),
-                            color = Color(0xFF000000)
+                    lessonName?.let {
+                        Text(
+                            text = it,
+                            style = TextStyle(
+                                textAlign = TextAlign.Center,
+                                fontSize = 40.sp,
+                                fontFamily = FontFamily(font),
+                                fontWeight = FontWeight(400),
+                                color = Color(0xFF000000)
+                            )
                         )
-                    )
+                    }
                 }
                 Row(
                     modifier = Modifier

@@ -1,7 +1,9 @@
 package com.example.ui_presence_absence.Pages
 
+import android.content.Context
 import android.graphics.Paint.Style
 import android.provider.MediaStore.Audio.Radio
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -33,9 +36,13 @@ import androidx.navigation.NavController
 import com.example.ui_presence_absence.Destination
 import com.example.ui_presence_absence.MainActivity
 import com.example.ui_presence_absence.R
+import com.example.ui_presence_absence.model.getLessonOfMaster
+import com.example.ui_presence_absence.model.getMaster
 
 @Composable
-fun ShowListOfClasses(navController: NavController) {
+fun ShowListOfClasses(navController: NavController, masterId: String) {
+
+    val mContext = LocalContext.current
 
     //Constant variable
     val screenHeight = 740
@@ -45,14 +52,24 @@ fun ShowListOfClasses(navController: NavController) {
     val homeIconRes = painterResource(id = R.drawable.home);
     val settingIconRes = painterResource(id = R.drawable.settings);
     val font = Font(R.font.koodak)
-    val numberOfClasses = 3
-    val classDates = mapOf(
-        1 to "زمان: شنبه 10-12, یکشنبه 8-10",
-        2 to "زمان: دوشنبه 10-12, شنبه 8-10",
-        3 to "زمان: چهارشنبه 10-12"
-    )
-    val lessonUnits = mapOf(1 to "3", 2 to "3", 3 to "2")
-    val lessonNames = mapOf(1 to "ساختمان داده", 2 to "زبان تخصصی", 3 to "طراحی الگوریتم")
+
+    val master = getMaster(masterId)
+    val allClasses = master?.let { getLessonOfMaster(it) }
+    val numberOfClasses = allClasses?.size
+
+
+    val classDates = mutableMapOf<Int, String>()
+    val lessonUnits = mutableMapOf<Int, String>()
+    val lessonNames = mutableMapOf<Int, String>()
+
+    var counter = 1
+    for (cls in allClasses!!){
+        lessonNames.put(counter, cls.lessonName)
+        lessonUnits.put(counter, cls.lessonUnit.toString())
+        classDates.put(counter, "زمان: " + cls.time)
+        counter++
+    }
+
 
     Column(
         modifier = Modifier
@@ -102,9 +119,17 @@ fun ShowListOfClasses(navController: NavController) {
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                for (i in 1..numberOfClasses) {
+                for (i in 1..numberOfClasses!!) {
                     Button(
-                        onClick = { navController.navigate(Destination.EachClass.route) },
+                        onClick = {
+                                    val cls = allClasses.get(1)
+                                    if (cls == null){
+                                        ShowNotFoundToastF(context = mContext)
+                                        val route = Destination.EachClass.createLessonId(cls.id)
+                                        navController.navigate(route)
+                                    }
+                                  },
+
                         modifier = Modifier
                             .border(
                                 2.dp,
@@ -226,4 +251,8 @@ fun ShowListOfClasses(navController: NavController) {
 
     }
 
+}
+
+fun ShowNotFoundToastF(context: Context){
+    Toast.makeText(context, "کاربر یافت نشد", Toast.LENGTH_LONG).show()
 }

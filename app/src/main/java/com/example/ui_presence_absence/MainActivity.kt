@@ -13,11 +13,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ui_presence_absence.Pages.EditPage
+import com.example.ui_presence_absence.Pages.Login
 import com.example.ui_presence_absence.Pages.MainPage
 import com.example.ui_presence_absence.Pages.ShowClass
 import com.example.ui_presence_absence.Pages.ShowListOfClasses
@@ -26,19 +28,30 @@ import com.example.ui_presence_absence.Pages.Participation
 import com.example.ui_presence_absence.Pages.Setting
 import com.example.ui_presence_absence.Pages.hozorGhiab
 import com.example.ui_presence_absence.Pages.Welcome
+import com.example.ui_presence_absence.model.Student
+import com.example.ui_presence_absence.model.createLesson
+import com.example.ui_presence_absence.model.createMaster
+import com.example.ui_presence_absence.model.createStudents
 import com.example.ui_presence_absence.ui.theme.Ui_presence_absenceTheme
 
 
 sealed class Destination(val route: String) {
-    object MainPage : Destination("MainPage")
-    object ListOfClasses : Destination("ListOfClasses")
-    object EachClass : Destination("Class")
+    object MainPage : Destination("MainPage/{masterId}"){
+        fun createMasterId(masterId: String) = "MainPage/$masterId"
+    }
+    object ListOfClasses : Destination("ListOfClasses/{masterId}"){
+        fun createMasterId(masterId: String) = "ListOfClasses/$masterId"
+    }
+    object EachClass : Destination("Class/{lessonId}"){
+        fun createLessonId(lessonId: String) = "Class/$lessonId"
+    }
     object EditPage : Destination("EditPage")
     object History : Destination("History")
     object HozorGhiab : Destination("HozorGhiab")
     object Participation : Destination("Participation")
     object Setting : Destination("Setting")
     object Welcome : Destination("Welcome")
+    object Login: Destination("Login")
 }
 
 class MainActivity : ComponentActivity() {
@@ -50,6 +63,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    createStudents()
+                    createMaster()
+                    createLesson()
                     val navController = rememberNavController()
                     NavigationAppHost(navController = navController)
                 }
@@ -64,13 +80,28 @@ fun NavigationAppHost(navController: NavHostController) {
         startDestination = Destination.Welcome.route,
         ) {
         composable(Destination.Welcome.route) { Welcome(navController) }
-        composable(Destination.MainPage.route) { MainPage(navController) }
+
+        composable(Destination.MainPage.route) {navBackStackEntry ->
+              val masterId = navBackStackEntry.arguments?.getString("masterId")
+            masterId?.let { MainPage(navController = navController, masterId = it) }
+        }
+
         composable(Destination.Participation.route) { Participation(navController) }
-        composable(Destination.EachClass.route) { ShowClass(navController) }
+
+        composable(Destination.EachClass.route) { navBackStackEntry ->
+            val lessonId = navBackStackEntry.arguments?.getString("lessonId")
+            lessonId?.let { ShowClass(navController = navController, lessonId = it) }}
+
         composable(Destination.History.route) { history(navController) }
         composable(Destination.EditPage.route) { EditPage(navController) }
         composable(Destination.HozorGhiab.route) { hozorGhiab(navController) }
-        composable(Destination.ListOfClasses.route) { ShowListOfClasses(navController) }
+
+        composable(Destination.ListOfClasses.route) { navBackStackEntry ->
+            val masterId = navBackStackEntry.arguments?.getString("masterId")
+            masterId?.let { ShowListOfClasses(navController, masterId)}
+        }
+
         composable(Destination.Setting.route) { Setting(navController) }
+        composable(Destination.Login.route){ Login(navController)}
     }
 }

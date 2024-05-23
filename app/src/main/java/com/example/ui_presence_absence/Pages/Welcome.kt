@@ -65,7 +65,7 @@ fun Welcome(navController: NavController){
                 })
         )
         delay(1500L)
-        navController.navigate(Destination.MainPage.route)
+        navController.navigate(Destination.Login.route)
     }
 
 
