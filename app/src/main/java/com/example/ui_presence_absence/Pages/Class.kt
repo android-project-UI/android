@@ -55,6 +55,9 @@ fun ShowClass(navController: NavController) {
     val lessonInfo = mapOf(1 to "جلسات", 2 to "دانشجو", 3 to "واحد")
     val lessonInfoNumbers = mapOf(1 to "7", 2 to "25", 3 to "3")
 
+
+
+
     Column(
         modifier = Modifier
             .width(screenWidth.dp)
