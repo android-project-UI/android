@@ -3,7 +3,6 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,18 +10,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,9 +31,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -49,9 +41,8 @@ import com.example.ui_presence_absence.R
 import com.example.ui_presence_absence.model.getMaster
 
 
-@Preview
 @Composable
-fun Login() {
+fun Login(navController: NavController) {
 
     val screenWidth = 420
     val screenHeight = 740
@@ -86,11 +77,7 @@ fun Login() {
         ) {
 
 
-            Button(onClick = {}) {
-                val backRes = painterResource(id = R.drawable.back)
-                Image(painter = backRes, contentDescription = "")
-
-            }
+            Button(onClick = { navController.popBackStack() }) {}
 
             // Header title
             Text(
@@ -158,8 +145,11 @@ fun Login() {
                 onClick = {
                     val master  = getMaster(username.toString())
 
-                    if (master != null)
+                    if (master != null){
                         masterId = master.id
+                        navController.navigate(Destination.EachClass.route)
+                    }
+
 
                     else
                         ShowNotFoundToast(mContext)
@@ -203,7 +193,11 @@ fun Login() {
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            Button(onClick = {}) {
+            Button(onClick = {
+                val activity: MainActivity = MainActivity()
+                activity.finish()
+                System.exit(0)
+            }) {
                 val exitRes = painterResource(id = R.drawable.exit)
                 Image(painter = exitRes, contentDescription = "")
             }
@@ -213,7 +207,7 @@ fun Login() {
                 Image(painter = homeRes, contentDescription = "")
             }
 
-            Button(onClick = {}) {
+            Button(onClick = { navController.navigate(Destination.Setting.route) }) {
                 val settingsRes = painterResource(id = R.drawable.settings)
                 Image(painter = settingsRes, contentDescription = "")
             }

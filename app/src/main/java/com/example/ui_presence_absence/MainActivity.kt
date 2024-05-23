@@ -18,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ui_presence_absence.Pages.EditPage
+import com.example.ui_presence_absence.Pages.Login
 import com.example.ui_presence_absence.Pages.MainPage
 import com.example.ui_presence_absence.Pages.ShowClass
 import com.example.ui_presence_absence.Pages.ShowListOfClasses
@@ -27,6 +28,9 @@ import com.example.ui_presence_absence.Pages.Setting
 import com.example.ui_presence_absence.Pages.hozorGhiab
 import com.example.ui_presence_absence.Pages.Welcome
 import com.example.ui_presence_absence.model.Student
+import com.example.ui_presence_absence.model.createLesson
+import com.example.ui_presence_absence.model.createMaster
+import com.example.ui_presence_absence.model.createStudents
 import com.example.ui_presence_absence.ui.theme.Ui_presence_absenceTheme
 
 
@@ -40,6 +44,7 @@ sealed class Destination(val route: String) {
     object Participation : Destination("Participation")
     object Setting : Destination("Setting")
     object Welcome : Destination("Welcome")
+    object Login: Destination("Login")
 }
 
 class MainActivity : ComponentActivity() {
@@ -51,6 +56,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    createStudents()
+                    createMaster()
+                    createLesson()
                     val navController = rememberNavController()
                     NavigationAppHost(navController = navController)
                 }
@@ -73,5 +81,6 @@ fun NavigationAppHost(navController: NavHostController) {
         composable(Destination.HozorGhiab.route) { hozorGhiab(navController) }
         composable(Destination.ListOfClasses.route) { ShowListOfClasses(navController) }
         composable(Destination.Setting.route) { Setting(navController) }
+        composable(Destination.Login.route){ Login(navController)}
     }
 }
