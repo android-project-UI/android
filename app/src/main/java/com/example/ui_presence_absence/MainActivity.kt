@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,7 +36,9 @@ import com.example.ui_presence_absence.ui.theme.Ui_presence_absenceTheme
 
 
 sealed class Destination(val route: String) {
-    object MainPage : Destination("MainPage")
+    object MainPage : Destination("MainPage/{masterId}"){
+        fun createMasterId(masterId: String) = "MainPage/$masterId"
+    }
     object ListOfClasses : Destination("ListOfClasses")
     object EachClass : Destination("Class")
     object EditPage : Destination("EditPage")
@@ -73,7 +76,11 @@ fun NavigationAppHost(navController: NavHostController) {
         startDestination = Destination.Welcome.route,
         ) {
         composable(Destination.Welcome.route) { Welcome(navController) }
-        composable(Destination.MainPage.route) { MainPage(navController) }
+        composable(Destination.MainPage.route) {navBackStackEntry ->
+              val masterId = navBackStackEntry.arguments?.getString("masterId")
+            masterId?.let { MainPage(navController = navController, masterId = it) }
+        }
+
         composable(Destination.Participation.route) { Participation(navController) }
         composable(Destination.EachClass.route) { ShowClass(navController) }
         composable(Destination.History.route) { history(navController) }

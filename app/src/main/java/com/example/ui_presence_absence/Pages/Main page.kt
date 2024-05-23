@@ -32,13 +32,17 @@ import androidx.navigation.NavController
 import com.example.ui_presence_absence.Destination
 import com.example.ui_presence_absence.MainActivity
 import com.example.ui_presence_absence.R
+import com.example.ui_presence_absence.model.getMaster
 
 @Preview
 @Composable
-fun MainPage(navController: NavController) {
-    val proffessorName = "محمدرضا منتظرالقائم"
-    val groupName = "گروه شبکه های کامپیوتری"
-    val profId = "993623029"
+fun MainPage(navController: NavController, masterId: String) {
+
+    val master = getMaster(masterId)
+
+    val proffessorName = master?.name
+    val groupName = "گروه " + master?.group
+    val profId = master?.id
 
     val screenWidth = 420
     val screenHeight = 740
@@ -108,40 +112,46 @@ fun MainPage(navController: NavController) {
                 horizontalAlignment = Alignment.End
             ) {
 
-                Text(
-                    text = proffessorName,
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        fontFamily = FontFamily(font),
-                        fontWeight = FontWeight(400),
-                        color = MaterialTheme.colorScheme.onBackground,
-                        textAlign = TextAlign.Right,
+                proffessorName?.let {
+                    Text(
+                        text = it,
+                        style = TextStyle(
+                            fontSize = 20.sp,
+                            fontFamily = FontFamily(font),
+                            fontWeight = FontWeight(400),
+                            color = MaterialTheme.colorScheme.onBackground,
+                            textAlign = TextAlign.Right,
+                        )
                     )
-                )
+                }
 
 
-                Text(
-                    text = groupName,
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        fontFamily = FontFamily(font),
-                        fontWeight = FontWeight(400),
-                        color = MaterialTheme.colorScheme.onBackground,
-                        textAlign = TextAlign.Right
+                groupName?.let {
+                    Text(
+                        text = it,
+                        style = TextStyle(
+                            fontSize = 20.sp,
+                            fontFamily = FontFamily(font),
+                            fontWeight = FontWeight(400),
+                            color = MaterialTheme.colorScheme.onBackground,
+                            textAlign = TextAlign.Right
+                        )
                     )
-                )
+                }
 
 
-                Text(
-                    text = profId,
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        fontFamily = FontFamily(font),
-                        fontWeight = FontWeight(400),
-                        color = MaterialTheme.colorScheme.onBackground,
-                        textAlign = TextAlign.Right,
+                profId?.let {
+                    Text(
+                        text = it,
+                        style = TextStyle(
+                            fontSize = 20.sp,
+                            fontFamily = FontFamily(font),
+                            fontWeight = FontWeight(400),
+                            color = MaterialTheme.colorScheme.onBackground,
+                            textAlign = TextAlign.Right,
+                        )
                     )
-                )
+                }
 
 
             }

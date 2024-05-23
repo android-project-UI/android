@@ -17,7 +17,7 @@ fun getMaster(id: String): Master? {
 
 fun createMaster(){
     val m1 = Master("9910", "محمد برزوئی", "user", "9910", "9910",
-        group = "شبکه")
+        group = "شبکه های کامپیوتری")
 
     val m2 = Master("9911", "پروین شیخ الاسلام", "user", "9911", "9911",
         group = "هوش مصنوعی")

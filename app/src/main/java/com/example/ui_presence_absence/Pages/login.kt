@@ -144,10 +144,10 @@ fun Login(navController: NavController) {
             Button(
                 onClick = {
                     val master  = getMaster(username.toString())
-
                     if (master != null){
                         masterId = master.id
-                        navController.navigate(Destination.MainPage.route)
+                        val route = Destination.MainPage.createMasterId(masterId.toString())
+                        navController.navigate(route)
                     }
 
 
