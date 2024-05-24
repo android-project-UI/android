@@ -55,25 +55,7 @@ fun Participation(navController: NavController, lessonId: String) {
     val numberOfSessions = lesson?.getNumberOfSessions()
     val allStudents = lesson?.getAllStudents()
 
-//    val studentMap = mapOf(
-//        "993623030" to "علیرضا کریمی",
-//        "993623031" to "محمد همدانی",
-//        "993623032" to "کیانا چکناواریان",
-//        "993623035" to "علی همدانی",
-//        "993623037" to "علی همدانی",
-//        "993623041" to "نیما حسینی"
-//    )
-
-    //    val studentParticipation = mapOf(
-//        "993623030" to 0.80f,
-//        "993623031" to 0.50f,
-//        "993623032" to 1f,
-//        "993623035" to 1f,
-//        "993623037" to 0.95f,
-//        "993623041" to 0.40f
-//    )
-
-
+    
     val studentMap = mutableMapOf<String, String>()
     val studentParticipationMap = mutableMapOf<String, Float>()
     for (student in allStudents!!){
