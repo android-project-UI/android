@@ -174,7 +174,6 @@ fun MainPage(navController: NavController, masterId: String) {
                         .height(140.dp)
                         .border(2.dp, MaterialTheme.colorScheme.background, CircleShape)
                 )
-
             }
         }
 
@@ -217,7 +216,6 @@ fun MainPage(navController: NavController, masterId: String) {
                         )
                     )
                 }
-
             }
 
             Column(

@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -200,30 +201,39 @@ fun history(navController: NavController, lessonId: String) {
                     Row(
                         modifier = Modifier
                             .width(390.dp)
-                            .height(85.dp)
+                            .height(125.dp)
                             .padding(5.dp)
                             .background(
                                 color = MaterialTheme.colorScheme.onBackground,
-                                shape = RoundedCornerShape(15.dp)
+                                shape = RoundedCornerShape(20.dp)
                             ),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.End
                     ) {
 
+                        Button(onClick = { /*TODO*/ },
+                            modifier = Modifier.border(2.dp, color = Color(0xFF000000),
+                                shape = RoundedCornerShape(20.dp))
+                                .width(380.dp)
+                                .height(120.dp),
 
-                        Column(
-                            modifier = Modifier
-                                .width(60.dp)
-                                .height(60.dp)
-                                .background(
-                                    color = Color(0xFFF5F5F5),
-                                    shape = RoundedCornerShape(15.dp)
-                                ),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
+                            shape = RoundedCornerShape(20.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.onBackground,)
+                            ) {
+                            Column(
+                                modifier = Modifier
+                                    .width(60.dp)
+                                    .height(60.dp)
+                                    .background(
+                                        color = Color(0xFFF5F5F5),
+                                        shape = RoundedCornerShape(15.dp)
+                                    ),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
 
-                            Text(text = sessionStatisticsMap[i].toString(), style = TextStyle(
+                                Text(text = sessionStatisticsMap[i].toString(), style = TextStyle(
                                     fontSize = 20.sp,
                                     fontFamily = FontFamily(font),
                                     fontWeight = FontWeight(400),
@@ -232,45 +242,47 @@ fun history(navController: NavController, lessonId: String) {
                                 ))
 
 
-                            Text(
-                                text = "حاضرین", style = TextStyle(
-                                    fontSize = 12.sp,
-                                    fontFamily = FontFamily(font),
-                                    fontWeight = FontWeight(400),
-                                    color = Color(0xFF000000),
-                                    textAlign = TextAlign.Center
+                                Text(
+                                    text = "حاضرین", style = TextStyle(
+                                        fontSize = 12.sp,
+                                        fontFamily = FontFamily(font),
+                                        fontWeight = FontWeight(400),
+                                        color = Color(0xFF000000),
+                                        textAlign = TextAlign.Center
+                                    )
                                 )
-                            )
-                        }
+                            }
 
-                        Column(
-                            modifier = Modifier
-                                .width(310.dp)
-                                .padding(5.dp),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.End
-                        ) {
-                            Text(
-                                text = i.toString() + "جلسه ",
-                                style = TextStyle(
-                                    fontSize = 20.sp,
-                                    fontFamily = FontFamily(font),
-                                    fontWeight = FontWeight(400),
-                                    color = Color(0xFF000000),
-                                    textAlign = TextAlign.Right
+                            Column(
+                                modifier = Modifier
+                                    .width(310.dp)
+                                    .padding(5.dp),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.End
+                            ) {
+                                Text(
+                                    text = i.toString() + "جلسه ",
+                                    style = TextStyle(
+                                        fontSize = 20.sp,
+                                        fontFamily = FontFamily(font),
+                                        fontWeight = FontWeight(400),
+                                        color = Color(0xFF000000),
+                                        textAlign = TextAlign.Right
+                                    )
                                 )
-                            )
 
-                            Text(
-                                text = "تاریخ: " + sessionDateMap[i],
-                                style = TextStyle(
-                                    fontSize = 15.sp,
-                                    fontFamily = FontFamily(font),
-                                    fontWeight = FontWeight(400),
-                                    color = Color(0xFF000000),
-                                    textAlign = TextAlign.Right
+                                Text(
+                                    text = "تاریخ: " + sessionDateMap[i],
+                                    style = TextStyle(
+                                        fontSize = 15.sp,
+                                        fontFamily = FontFamily(font),
+                                        fontWeight = FontWeight(400),
+                                        color = Color(0xFF000000),
+                                        textAlign = TextAlign.Right
+                                    )
                                 )
-                            )
+                            }
+
                         }
                     }
                 }
