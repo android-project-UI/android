@@ -209,12 +209,9 @@ fun ShowListOfClasses(navController: NavController, masterId: String) {
                                     )
                                 )
                             }
-
-
                         }
                     }
                 }
-
             }
         }
 
