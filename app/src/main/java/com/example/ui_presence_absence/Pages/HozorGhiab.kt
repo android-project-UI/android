@@ -1,5 +1,6 @@
 package com.example.ui_presence_absence.Pages
 
+import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -39,6 +41,11 @@ import androidx.navigation.NavController
 import com.example.ui_presence_absence.Destination
 import com.example.ui_presence_absence.MainActivity
 import com.example.ui_presence_absence.R
+import com.example.ui_presence_absence.model.Session
+import com.example.ui_presence_absence.model.getLesson
+import com.example.ui_presence_absence.model.getStudent
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Preview
 @Composable
@@ -49,22 +56,26 @@ fun hozorGhiab(navController: NavController) {
     val bodyHeight = 680
     val font = Font(R.font.koodak)
 
+    val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        DateTimeFormatter.ofPattern("yyyy/MM/dd")
+    } else {
+        TODO("VERSION.SDK_INT < O")
+    }
+    val current = LocalDateTime.now().format(formatter)
 
-    val sessionName = "ساختمان های داده"
-    val sessionNumber = 13
-    val sessionDate = "تاریخ: " + "1402/9/2"
+    val lesson = getLesson("2")
 
-    val studentMap = mapOf(
-        "993623030" to "علیرضا کریمی",
-        "993623031" to "محمد همدانی",
-        "993623032" to "کیانا چکناواریان",
-        "993623035" to "علی همدانی",
-        "993623037" to "علی همدانی",
-        "993623041" to "نیما حسینی"
-    )
 
-    var checked by remember { mutableStateOf(true) }
+    val sessionName = lesson?.lessonName
+    val sessionNumber = lesson?.getNumberOfSessions()?.plus(1)
+    val sessionDate = "تاریخ: $current"
+    val allStudents = lesson?.getAllStudents()
 
+    val studentMap = mutableMapOf<String, String>()
+    val studentStateMap = mutableMapOf<String, Boolean>()
+
+    for (student in allStudents!!)
+        studentMap.put(student.studentId, student.fullName)
 
 
     Column(
@@ -173,15 +184,17 @@ fun hozorGhiab(navController: NavController) {
                     horizontalAlignment = Alignment.End
                 ) {
 
-                    Text(
-                        text = sessionName, style = TextStyle(
-                            fontSize = 25.sp,
-                            fontFamily = FontFamily(font),
-                            fontWeight = FontWeight(400),
-                            color = Color(0xFF000000),
-                            textAlign = TextAlign.Right
+                    sessionName?.let {
+                        Text(
+                            text = it, style = TextStyle(
+                                fontSize = 25.sp,
+                                fontFamily = FontFamily(font),
+                                fontWeight = FontWeight(400),
+                                color = Color(0xFF000000),
+                                textAlign = TextAlign.Right
+                            )
                         )
-                    )
+                    }
 
                     Text(
                         text = sessionDate, style = TextStyle(
@@ -224,10 +237,12 @@ fun hozorGhiab(navController: NavController) {
                     ) {
 
 
+                        val isChecked = remember { mutableStateOf(false) }
+                        studentStateMap.put(key, isChecked.value)
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            Checkbox(checked = checked, onCheckedChange = { checked = it }
+                            Checkbox(checked = isChecked.value, onCheckedChange = { isChecked.value = it }
                             )
                         }
 
@@ -282,7 +297,18 @@ fun hozorGhiab(navController: NavController) {
                     .height(90.dp)
             ) {
                 Button(
-                    onClick = { navController.navigate(Destination.EditPage.route) },
+                    onClick = { // navController.navigate(Destination.EditPage.route)
+
+                        val newSession = Session(sessionName!! + current.toString(),
+                            sessionName!!, current.toString())
+
+                        for(key in studentStateMap.keys)
+                                      if (studentStateMap[key] == true){
+                                          val student = getStudent(key)
+                                          newSession.addStudent(student!!)
+                                      }
+                        lesson.addSession(current.toString(), newSession)
+                              },
                     modifier = Modifier
                         .width(screenWidth.dp)
                         .height(250.dp),

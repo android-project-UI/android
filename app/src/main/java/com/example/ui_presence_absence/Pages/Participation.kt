@@ -44,7 +44,6 @@ fun Participation(navController: NavController, lessonId: String) {
     val screenWidth = 420
     val screenHeight = 740
     val bodyHeight = 680
-    val CIRCULAR_TIMER_RADIUS = 1
     val font = Font(R.font.koodak)
     val pageSubject = "مشارکت"
 
@@ -55,7 +54,7 @@ fun Participation(navController: NavController, lessonId: String) {
     val numberOfSessions = lesson?.getNumberOfSessions()
     val allStudents = lesson?.getAllStudents()
 
-    
+
     val studentMap = mutableMapOf<String, String>()
     val studentParticipationMap = mutableMapOf<String, Float>()
     for (student in allStudents!!){
