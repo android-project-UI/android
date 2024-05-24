@@ -1,5 +1,8 @@
 package com.example.ui_presence_absence.Pages
 
+import android.content.Context
+import android.os.Build
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,12 +23,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -36,48 +41,60 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.ui_presence_absence.Destination
+import com.example.ui_presence_absence.MainActivity
 import com.example.ui_presence_absence.R
+import com.example.ui_presence_absence.model.Session
+import com.example.ui_presence_absence.model.getLesson
+import com.example.ui_presence_absence.model.getStudent
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-@Preview
 @Composable
-fun EditPage(navController: NavController){
+fun EditPage(navController: NavController, lessonId: String) {
+
+    val context = LocalContext.current
 
     val screenWidth = 420
-    val screenHeight =  740
+    val screenHeight = 740
     val bodyHeight = 680
     val font = Font(R.font.koodak)
 
 
-    val sessionName = "ساختمان های داده"
-    val sessionNumber = 3
-    val sessionDate = "تاریخ: " + "1402/7/16"
-
-    val studentMap = mapOf("993623030" to "علیرضا کریمی",
-        "993623031" to "محمد همدانی",
-        "993623032" to "کیانا چکناواریان",
-        "993623035" to "علی همدانی",
-        "993623037" to "علی همدانی",
-        "993623041" to "نیما حسینی")
-
-    var checked by remember { mutableStateOf(true) }
-    var unchecked by remember { mutableStateOf(false) }
+    val lesson = getLesson(lessonId)
+    val lastSession = lesson?.getAllSessions()?.toList()?.last()
+    val current = lastSession?.date
 
 
+    val sessionName = lesson?.lessonName
+    val sessionNumber = lesson?.getNumberOfSessions()
+    val sessionDate = "تاریخ: $current"
+    val allStudents = lesson?.getAllStudents()
 
-    Column(modifier = Modifier
-        .width(screenWidth.dp)
-        .height(screenHeight.dp)) {
+    val studentMap = mutableMapOf<String, String>()
+    val studentStateMap = mutableMapOf<String, Boolean>()
+
+    for (student in allStudents!!)
+        studentMap.put(student.studentId, student.fullName)
+
+
+    Column(
+        modifier = Modifier
+            .width(screenWidth.dp)
+            .height(screenHeight.dp)
+    ) {
 
 
         // Header implementation
-        Row(modifier = Modifier
-            .width(screenWidth.dp)
-            .height(60.dp)
-            .background(color = Color(0xFF141E46))
-            .padding(10.dp),
+        Row(
+            modifier = Modifier
+                .width(screenWidth.dp)
+                .height(60.dp)
+                .background(MaterialTheme.colorScheme.primary)
+                .padding(10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-        ){
+        ) {
 
 
             Button(onClick = { navController.popBackStack() }) {
@@ -87,20 +104,25 @@ fun EditPage(navController: NavController){
             }
 
             // Header title
-            Text(text = "تغییر جلسه",
-                style = TextStyle(fontSize = 25.sp,
+            Text(
+                text = "تغییر جلسه",
+                style = TextStyle(
+                    fontSize = 25.sp,
                     fontFamily = FontFamily(font),
                     fontWeight = FontWeight(200),
                     color = Color(0xFFFFFFFF),
-                    textAlign = TextAlign.Right)
+                    textAlign = TextAlign.Right
+                )
             )
         }
 
         // body initialization
-        Column(modifier = Modifier
-            .width(screenWidth.dp)
-            .height(bodyHeight.dp)
-            .padding(10.dp))
+        Column(
+            modifier = Modifier
+                .width(screenWidth.dp)
+                .height(bodyHeight.dp)
+                .padding(10.dp)
+        )
         {
 
             // class information
@@ -162,15 +184,17 @@ fun EditPage(navController: NavController){
                     horizontalAlignment = Alignment.End
                 ) {
 
-                    Text(
-                        text = sessionName, style = TextStyle(
-                            fontSize = 25.sp,
-                            fontFamily = FontFamily(font),
-                            fontWeight = FontWeight(400),
-                            color = Color(0xFF000000),
-                            textAlign = TextAlign.Right
+                    sessionName?.let {
+                        Text(
+                            text = it, style = TextStyle(
+                                fontSize = 25.sp,
+                                fontFamily = FontFamily(font),
+                                fontWeight = FontWeight(400),
+                                color = Color(0xFF000000),
+                                textAlign = TextAlign.Right
+                            )
                         )
-                    )
+                    }
 
                     Text(
                         text = sessionDate, style = TextStyle(
@@ -213,10 +237,12 @@ fun EditPage(navController: NavController){
                     ) {
 
 
+                        val isChecked = remember { mutableStateOf(false) }
+                        studentStateMap.put(key, isChecked.value)
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            Checkbox(checked = unchecked, onCheckedChange = { checked = it }
+                            Checkbox(checked = isChecked.value, onCheckedChange = { isChecked.value = it }
                             )
                         }
 
@@ -265,53 +291,91 @@ fun EditPage(navController: NavController){
                 }
             }
 
-            Row(modifier = Modifier.width(screenWidth.dp)
-                .height(90.dp)) {
-                Button(onClick = { /*TODO*/ },
+            Row(
+                modifier = Modifier
+                    .width(screenWidth.dp)
+                    .height(90.dp)
+            ) {
+                Button(
+                    onClick = { //
+
+                        val newSession = Session(sessionName!! + current.toString(),
+                            sessionName!!, current.toString())
+
+                        for(key in studentStateMap.keys)
+                            if (studentStateMap[key] == true){
+                                val student = getStudent(key)
+                                newSession.addStudent(student!!)
+                            }
+                        lesson.addSession(current.toString(), newSession)
+                        ShowEndOfEdit(context)
+
+                        val route = Destination.EachClass.createLessonId(lessonId)
+                        navController.navigate(route)
+                    },
                     modifier = Modifier
                         .width(screenWidth.dp)
                         .height(250.dp),
                     shape = RoundedCornerShape(20.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary,
-                        contentColor = MaterialTheme.colorScheme.onSecondary)
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                        contentColor = MaterialTheme.colorScheme.onSecondary
+                    )
                 ) {
-                    Text(text = "اعمال تغییرات", style = TextStyle(fontSize = 28.sp,
-                                                        fontFamily = FontFamily(font),
-                                                        fontWeight = FontWeight(400),
-                                                        color = MaterialTheme.colorScheme.onSecondary,
-                                                        textAlign = TextAlign.Center))
+                    Text(
+                        text = "اعمال تغییرات", style = TextStyle(
+                            fontSize = 28.sp,
+                            fontFamily = FontFamily(font),
+                            fontWeight = FontWeight(400),
+                            color = MaterialTheme.colorScheme.onSecondary,
+                            textAlign = TextAlign.Center
+                        )
+                    )
                 }
             }
         }
 
 
         // Footer initialization
-        Row(modifier = Modifier
-            .width(screenWidth.dp)
-            .height(80.dp)
-            .background(
-                color = Color(0xFF141E46), shape = RoundedCornerShape(
-                    topStart = 20.dp,
-                    topEnd = 20.dp
-                )
-            ),
+        Row(
+            modifier = Modifier
+                .width(screenWidth.dp)
+                .height(80.dp)
+                .background(
+                    MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(
+                        topStart = 20.dp,
+                        topEnd = 20.dp
+                    )
+                ),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically) {
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = {
+                val activity: MainActivity = MainActivity()
+                activity.finish()
+                System.exit(0)
+            }) {
                 val exitRes = painterResource(id = R.drawable.exit)
                 Image(painter = exitRes, contentDescription = "")
             }
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = {
+                val masterId = lesson?.master?.id
+                val route = Destination.MainPage.createMasterId(masterId.toString())
+                navController.navigate(route)}) {
                 val homeRes = painterResource(id = R.drawable.home)
                 Image(painter = homeRes, contentDescription = "")
             }
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { navController.navigate(Destination.Setting.route) }) {
                 val settingsRes = painterResource(id = R.drawable.settings)
                 Image(painter = settingsRes, contentDescription = "")
             }
         }
     }
+}
+
+fun ShowEndOfEdit(context: Context){
+    Toast.makeText(context, "جلسه با موفقیت تغییر کرد.", Toast.LENGTH_LONG).show()
 }

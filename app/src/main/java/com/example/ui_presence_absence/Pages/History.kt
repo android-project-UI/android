@@ -48,10 +48,11 @@ fun history(navController: NavController, lessonId: String) {
     val lesson = getLesson(lessonId)
     val sessionName = lesson?.lessonName
     val numberOfStudents = lesson?.getNumberOfStudents()
-    val allSessions = lesson?.getAllSessions()
+    val allSessions = lesson!!.getAllSessions()
 
     val sessionDateMap = mutableMapOf<Int, String>()
     val sessionStatisticsMap = mutableMapOf<Int, Int>()
+
     var counter = 1
     for(session in allSessions!!){
         sessionDateMap.put(counter, session.date)
@@ -211,7 +212,10 @@ fun history(navController: NavController, lessonId: String) {
                         horizontalArrangement = Arrangement.End
                     ) {
 
-                        Button(onClick = { /*TODO*/ },
+                        Button(onClick = {
+                            val route = Destination.EditPage.createLessonId(lessonId)
+                            navController.navigate(route)
+                        },
                             modifier = Modifier.border(2.dp, color = Color(0xFF000000),
                                 shape = RoundedCornerShape(20.dp))
                                 .width(380.dp)
@@ -282,7 +286,6 @@ fun history(navController: NavController, lessonId: String) {
                                     )
                                 )
                             }
-
                         }
                     }
                 }
