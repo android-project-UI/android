@@ -35,20 +35,8 @@ fun Welcome(navController: NavController){
 
     val screenWidth = 420
     val screenHeight =  740
-    val bodyHeight = 680
     val font = Font(R.font.koodak)
 
-
-    val sessionName = "ساختمان های داده"
-    val sessionNumber = 13
-    val sessionDate = "تاریخ: " + "1402/9/2"
-
-    val studentMap = mapOf("993623030" to "علیرضا کریمی",
-        "993623031" to "محمد همدانی",
-        "993623032" to "کیانا چکناواریان",
-        "993623035" to "علی همدانی",
-        "993623037" to "علی همدانی",
-        "993623041" to "نیما حسینی")
 
     val scale = remember {
         androidx.compose.animation.core.Animatable(0f)

@@ -35,41 +35,32 @@ import androidx.navigation.NavController
 import com.example.ui_presence_absence.Destination
 import com.example.ui_presence_absence.MainActivity
 import com.example.ui_presence_absence.R
+import com.example.ui_presence_absence.model.getLesson
 
 @Preview
 @Composable
-fun Participation(navController: NavController) {
+fun Participation(navController: NavController, lessonId: String) {
 
     val screenWidth = 420
     val screenHeight = 740
     val bodyHeight = 680
-    val CIRCULAR_TIMER_RADIUS = 1
     val font = Font(R.font.koodak)
     val pageSubject = "مشارکت"
 
+    val lesson = getLesson(lessonId)
 
-    val sessionName = "ساختمان های داده"
-    val numberOfSessions = 6
-    val sessionDate = "تاریخ: " + "1402/10/9"
 
-    val studentMap = mapOf(
-        "993623030" to "علیرضا کریمی",
-        "993623031" to "محمد همدانی",
-        "993623032" to "کیانا چکناواریان",
-        "993623035" to "علی همدانی",
-        "993623037" to "علی همدانی",
-        "993623041" to "نیما حسینی"
-    )
+    val sessionName = lesson?.lessonName
+    val numberOfSessions = lesson?.getNumberOfSessions()
+    val allStudents = lesson?.getAllStudents()
 
-    val studentParticipation = mapOf(
-        "993623030" to 0.80f,
-        "993623031" to 0.50f,
-        "993623032" to 1f,
-        "993623035" to 1f,
-        "993623037" to 0.95f,
-        "993623041" to 0.40f
-    )
 
+    val studentMap = mutableMapOf<String, String>()
+    val studentParticipationMap = mutableMapOf<String, Float>()
+    for (student in allStudents!!){
+        studentMap.put(student.studentId, student.fullName)
+        studentParticipationMap.put(student.studentId, student.presencePercentage.toFloat())
+    }
 
 
     Column(
@@ -178,25 +169,17 @@ fun Participation(navController: NavController) {
                     horizontalAlignment = Alignment.End
                 ) {
 
-                    Text(
-                        text = sessionName, style = TextStyle(
-                            fontSize = 25.sp,
-                            fontFamily = FontFamily(font),
-                            fontWeight = FontWeight(400),
-                            color = Color(0xFF000000),
-                            textAlign = TextAlign.Right
+                    sessionName?.let {
+                        Text(
+                            text = it, style = TextStyle(
+                                fontSize = 25.sp,
+                                fontFamily = FontFamily(font),
+                                fontWeight = FontWeight(400),
+                                color = Color(0xFF000000),
+                                textAlign = TextAlign.Right
+                            )
                         )
-                    )
-
-                    Text(
-                        text = sessionDate, style = TextStyle(
-                            fontSize = 18.sp,
-                            fontFamily = FontFamily(font),
-                            fontWeight = FontWeight(400),
-                            color = Color(0xFF000000),
-                            textAlign = TextAlign.Right
-                        )
-                    )
+                    }
                 }
             }
 
@@ -234,7 +217,7 @@ fun Participation(navController: NavController) {
                         ) {
 
                             Box(contentAlignment = Alignment.Center) {
-                                studentParticipation[key]?.let {
+                                studentParticipationMap[key]?.let {
                                     CircularProgressIndicator(
                                         modifier = Modifier.size(70.dp),
                                         color = MaterialTheme.colorScheme.primary,
@@ -246,7 +229,7 @@ fun Participation(navController: NavController) {
 
 
                                 Text(
-                                    text = (studentParticipation[key]!! * 100).toInt()
+                                    text = (studentParticipationMap[key]!! * 100).toInt()
                                         .toString() + "%", style = TextStyle(
                                         fontSize = 12.sp,
                                         fontFamily = FontFamily(font),
@@ -331,7 +314,10 @@ fun Participation(navController: NavController) {
                 Image(painter = exitRes, contentDescription = "")
             }
 
-            Button(onClick = { navController.navigate(Destination.MainPage.route) }) {
+            Button(onClick = {
+                val masterId = lesson?.master?.id
+                val route = Destination.MainPage.createMasterId(masterId.toString())
+                navController.navigate(route)}) {
                 val homeRes = painterResource(id = R.drawable.home)
                 Image(painter = homeRes, contentDescription = "")
             }

@@ -13,6 +13,10 @@ class Session(var id: String, var title: String, var date: String){
     fun addStudent(student: Student){
         presentStudents.add(student)
     }
+
+    fun getNumberOfPresentStudents(): Int {
+        return this.presentStudents.size
+    }
 }
 
 fun getSession(sessionId: String): Session? {

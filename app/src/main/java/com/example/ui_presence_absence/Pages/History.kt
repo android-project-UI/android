@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,31 +33,33 @@ import androidx.navigation.NavController
 import com.example.ui_presence_absence.Destination
 import com.example.ui_presence_absence.MainActivity
 import com.example.ui_presence_absence.R
+import com.example.ui_presence_absence.model.getLesson
 
 @Preview
 @Composable
-fun history(navController: NavController) {
+fun history(navController: NavController, lessonId: String) {
 
     val screenWidth = 420
     val screenHeight = 740
     val bodyHeight = 680
     val font = Font(R.font.koodak)
 
-    val sessionName = "ساختمان های داده"
-    val numberOfStudents = 22
 
+    val lesson = getLesson(lessonId)
+    val sessionName = lesson?.lessonName
+    val numberOfStudents = lesson?.getNumberOfStudents()
+    val allSessions = lesson!!.getAllSessions()
 
-    val sessionDate = mapOf(
-        1 to "1-7-1402", 2 to "7-7-1402",
-        3 to "14-7-1402", 4 to "21-7-1402", 5 to "28-7-1402",
-        6 to "5-8-1402"
-    )
+    val sessionDateMap = mutableMapOf<Int, String>()
+    val sessionStatisticsMap = mutableMapOf<Int, Int>()
 
-    val sessionStatistics = mapOf(
-        1 to 20, 2 to 16,
-        3 to 20, 4 to 20, 5 to 19,
-        6 to 17
-    )
+    var counter = 1
+    for(session in allSessions!!){
+        sessionDateMap.put(counter, session.date)
+        sessionStatisticsMap.put(counter, session.getNumberOfPresentStudents())
+        counter++
+    }
+
 
     Column(
         modifier = Modifier
@@ -168,15 +171,17 @@ fun history(navController: NavController) {
                     horizontalAlignment = Alignment.End
                 ) {
 
-                    Text(
-                        text = sessionName, style = TextStyle(
-                            fontSize = 25.sp,
-                            fontFamily = FontFamily(font),
-                            fontWeight = FontWeight(400),
-                            color = Color(0xFF000000),
-                            textAlign = TextAlign.Right
+                    sessionName?.let {
+                        Text(
+                            text = it, style = TextStyle(
+                                fontSize = 25.sp,
+                                fontFamily = FontFamily(font),
+                                fontWeight = FontWeight(400),
+                                color = Color(0xFF000000),
+                                textAlign = TextAlign.Right
+                            )
                         )
-                    )
+                    }
                 }
             }
 
@@ -193,84 +198,94 @@ fun history(navController: NavController) {
                     .verticalScroll(rememberScrollState()),
             ) {
 
-                for (i in 1..sessionStatistics.size) {
+                for (i in 1..sessionStatisticsMap.size) {
                     Row(
                         modifier = Modifier
                             .width(390.dp)
-                            .height(85.dp)
+                            .height(125.dp)
                             .padding(5.dp)
                             .background(
                                 color = MaterialTheme.colorScheme.onBackground,
-                                shape = RoundedCornerShape(15.dp)
+                                shape = RoundedCornerShape(20.dp)
                             ),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.End
                     ) {
 
+                        Button(onClick = {
+                            val route = Destination.EditPage.createLessonId(lessonId)
+                            navController.navigate(route)
+                        },
+                            modifier = Modifier.border(2.dp, color = Color(0xFF000000),
+                                shape = RoundedCornerShape(20.dp))
+                                .width(380.dp)
+                                .height(120.dp),
 
-                        Column(
-                            modifier = Modifier
-                                .width(60.dp)
-                                .height(60.dp)
-                                .background(
-                                    color = Color(0xFFF5F5F5),
-                                    shape = RoundedCornerShape(15.dp)
-                                ),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
+                            shape = RoundedCornerShape(20.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.onBackground,)
+                            ) {
+                            Column(
+                                modifier = Modifier
+                                    .width(60.dp)
+                                    .height(60.dp)
+                                    .background(
+                                        color = Color(0xFFF5F5F5),
+                                        shape = RoundedCornerShape(15.dp)
+                                    ),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
 
-                            Text(
-                                text = sessionStatistics[i].toString(),
-                                style = TextStyle(
+                                Text(text = sessionStatisticsMap[i].toString(), style = TextStyle(
                                     fontSize = 20.sp,
                                     fontFamily = FontFamily(font),
                                     fontWeight = FontWeight(400),
                                     color = Color(0xFF000000),
                                     textAlign = TextAlign.Center
-                                )
-                            )
+                                ))
 
 
-                            Text(
-                                text = "حاضرین", style = TextStyle(
-                                    fontSize = 12.sp,
-                                    fontFamily = FontFamily(font),
-                                    fontWeight = FontWeight(400),
-                                    color = Color(0xFF000000),
-                                    textAlign = TextAlign.Center
+                                Text(
+                                    text = "حاضرین", style = TextStyle(
+                                        fontSize = 12.sp,
+                                        fontFamily = FontFamily(font),
+                                        fontWeight = FontWeight(400),
+                                        color = Color(0xFF000000),
+                                        textAlign = TextAlign.Center
+                                    )
                                 )
-                            )
-                        }
+                            }
 
-                        Column(
-                            modifier = Modifier
-                                .width(310.dp)
-                                .padding(5.dp),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.End
-                        ) {
-                            Text(
-                                text = i.toString() + "جلسه ",
-                                style = TextStyle(
-                                    fontSize = 20.sp,
-                                    fontFamily = FontFamily(font),
-                                    fontWeight = FontWeight(400),
-                                    color = Color(0xFF000000),
-                                    textAlign = TextAlign.Right
+                            Column(
+                                modifier = Modifier
+                                    .width(310.dp)
+                                    .padding(5.dp),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.End
+                            ) {
+                                Text(
+                                    text = i.toString() + "جلسه ",
+                                    style = TextStyle(
+                                        fontSize = 20.sp,
+                                        fontFamily = FontFamily(font),
+                                        fontWeight = FontWeight(400),
+                                        color = Color(0xFF000000),
+                                        textAlign = TextAlign.Right
+                                    )
                                 )
-                            )
 
-                            Text(
-                                text = "تاریخ: " + sessionDate[i],
-                                style = TextStyle(
-                                    fontSize = 15.sp,
-                                    fontFamily = FontFamily(font),
-                                    fontWeight = FontWeight(400),
-                                    color = Color(0xFF000000),
-                                    textAlign = TextAlign.Right
+                                Text(
+                                    text = "تاریخ: " + sessionDateMap[i],
+                                    style = TextStyle(
+                                        fontSize = 15.sp,
+                                        fontFamily = FontFamily(font),
+                                        fontWeight = FontWeight(400),
+                                        color = Color(0xFF000000),
+                                        textAlign = TextAlign.Right
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
                 }
@@ -302,7 +317,10 @@ fun history(navController: NavController) {
                 Image(painter = exitRes, contentDescription = "")
             }
 
-            Button(onClick = {navController.navigate(Destination.MainPage.route)}) {
+            Button(onClick = {
+                val masterId = lesson?.master?.id
+                val route = Destination.MainPage.createMasterId(masterId.toString())
+                navController.navigate(route)}) {
                 val homeRes = painterResource(id = R.drawable.home)
                 Image(painter = homeRes, contentDescription = "")
             }

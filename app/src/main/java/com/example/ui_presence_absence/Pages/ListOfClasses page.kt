@@ -1,8 +1,6 @@
 package com.example.ui_presence_absence.Pages
 
 import android.content.Context
-import android.graphics.Paint.Style
-import android.provider.MediaStore.Audio.Radio
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -209,12 +206,9 @@ fun ShowListOfClasses(navController: NavController, masterId: String) {
                                     )
                                 )
                             }
-
-
                         }
                     }
                 }
-
             }
         }
 
@@ -240,7 +234,9 @@ fun ShowListOfClasses(navController: NavController, masterId: String) {
             }) {
                 Icon(painter = exitIconRes, contentDescription = "Exit Icon")
             }
-            Button(onClick = { navController.navigate(Destination.MainPage.route) }) {
+            Button(onClick = {
+                val route = Destination.MainPage.createMasterId(masterId.toString())
+                navController.navigate(route)}) {
                 Icon(painter = homeIconRes, contentDescription = "Home Icon")
             }
             Button(onClick = { navController.navigate(Destination.Setting.route) }) {

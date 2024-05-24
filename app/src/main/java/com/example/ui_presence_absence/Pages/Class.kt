@@ -204,7 +204,10 @@ fun ShowClass(navController: NavController, lessonId: String) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(
-                        onClick = { navController.navigate(Destination.HozorGhiab.route) },
+                        onClick = {
+                                    val route = Destination.HozorGhiab.createLessonId(lessonId)
+                                    navController.navigate(route)
+                        },
                         modifier = Modifier
                             .height(180.dp)
                             .width(screenWidth.dp),
@@ -223,7 +226,6 @@ fun ShowClass(navController: NavController, lessonId: String) {
                             )
                         )
                     }
-
                 }
                 Row(
                     modifier = Modifier
@@ -234,7 +236,10 @@ fun ShowClass(navController: NavController, lessonId: String) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(
-                        onClick = { navController.navigate(Destination.History.route) },
+                        onClick = {
+                                val route = Destination.History.createLessonId(lessonId)
+                                navController.navigate(route)
+                             },
                         modifier = Modifier
                             .height(180.dp)
                             .width(screenWidth.dp / 2 - 20.dp),
@@ -254,7 +259,10 @@ fun ShowClass(navController: NavController, lessonId: String) {
                         )
                     }
                     Button(
-                        onClick = { navController.navigate(Destination.Participation.route) },
+                        onClick = {
+                            val route = Destination.Participation.createLessonId(lessonId)
+                            navController.navigate(route)
+                        },
                         modifier = Modifier
                             .height(180.dp)
                             .width(screenWidth.dp / 2 - 20.dp),
@@ -299,7 +307,11 @@ fun ShowClass(navController: NavController, lessonId: String) {
             }) {
                 Icon(painter = exitIconRes, contentDescription = "Exit Icon")
             }
-            Button(onClick = { navController.navigate(Destination.MainPage.route)}) {
+            Button(onClick = {
+                val masterId = lesson?.master?.id
+                val route = Destination.MainPage.createMasterId(masterId.toString())
+                navController.navigate(route)})
+            {
                 Icon(painter = homeIconRes, contentDescription = "Home Icon")
             }
             Button(onClick = { navController.navigate(Destination.Setting.route) }) {
