@@ -307,7 +307,11 @@ fun ShowClass(navController: NavController, lessonId: String) {
             }) {
                 Icon(painter = exitIconRes, contentDescription = "Exit Icon")
             }
-            Button(onClick = { navController.navigate(Destination.MainPage.route)}) {
+            Button(onClick = {
+                val masterId = lesson?.master?.id
+                val route = Destination.MainPage.createMasterId(masterId.toString())
+                navController.navigate(route)})
+            {
                 Icon(painter = homeIconRes, contentDescription = "Home Icon")
             }
             Button(onClick = { navController.navigate(Destination.Setting.route) }) {

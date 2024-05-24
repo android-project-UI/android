@@ -314,7 +314,10 @@ fun Participation(navController: NavController, lessonId: String) {
                 Image(painter = exitRes, contentDescription = "")
             }
 
-            Button(onClick = { navController.navigate(Destination.MainPage.route) }) {
+            Button(onClick = {
+                val masterId = lesson?.master?.id
+                val route = Destination.MainPage.createMasterId(masterId.toString())
+                navController.navigate(route)}) {
                 val homeRes = painterResource(id = R.drawable.home)
                 Image(painter = homeRes, contentDescription = "")
             }
