@@ -254,7 +254,10 @@ fun ShowClass(navController: NavController, lessonId: String) {
                         )
                     }
                     Button(
-                        onClick = { navController.navigate(Destination.Participation.route) },
+                        onClick = {
+                            val route = Destination.Participation.createLessonId(lessonId)
+                            navController.navigate(route)
+                        },
                         modifier = Modifier
                             .height(180.dp)
                             .width(screenWidth.dp / 2 - 20.dp),

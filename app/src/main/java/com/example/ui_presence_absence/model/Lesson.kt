@@ -29,6 +29,10 @@ class Lesson(val id: String, val lessonName: String, var master: Master, val les
     fun getNumberOfStudents(): Int {
         return allStudents.size
     }
+
+    fun getAllStudents(): MutableList<Student> {
+        return this.allStudents
+    }
 }
 
 fun getLessonOfMaster(master: Master): MutableList<Lesson> {
