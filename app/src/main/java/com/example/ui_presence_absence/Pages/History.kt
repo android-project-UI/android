@@ -32,31 +32,32 @@ import androidx.navigation.NavController
 import com.example.ui_presence_absence.Destination
 import com.example.ui_presence_absence.MainActivity
 import com.example.ui_presence_absence.R
+import com.example.ui_presence_absence.model.getLesson
 
 @Preview
 @Composable
-fun history(navController: NavController) {
+fun history(navController: NavController, lessonId: String) {
 
     val screenWidth = 420
     val screenHeight = 740
     val bodyHeight = 680
     val font = Font(R.font.koodak)
 
-    val sessionName = "ساختمان های داده"
-    val numberOfStudents = 22
 
+    val lesson = getLesson(lessonId)
+    val sessionName = lesson?.lessonName
+    val numberOfStudents = lesson?.getNumberOfStudents()
+    val allSessions = lesson?.getAllSessions()
 
-    val sessionDate = mapOf(
-        1 to "1-7-1402", 2 to "7-7-1402",
-        3 to "14-7-1402", 4 to "21-7-1402", 5 to "28-7-1402",
-        6 to "5-8-1402"
-    )
+    val sessionDateMap = mutableMapOf<Int, String>()
+    val sessionStatisticsMap = mutableMapOf<Int, Int>()
+    var counter = 1
+    for(session in allSessions!!){
+        sessionDateMap.put(counter, session.date)
+        sessionStatisticsMap.put(counter, session.getNumberOfPresentStudents())
+        counter++
+    }
 
-    val sessionStatistics = mapOf(
-        1 to 20, 2 to 16,
-        3 to 20, 4 to 20, 5 to 19,
-        6 to 17
-    )
 
     Column(
         modifier = Modifier
@@ -168,15 +169,17 @@ fun history(navController: NavController) {
                     horizontalAlignment = Alignment.End
                 ) {
 
-                    Text(
-                        text = sessionName, style = TextStyle(
-                            fontSize = 25.sp,
-                            fontFamily = FontFamily(font),
-                            fontWeight = FontWeight(400),
-                            color = Color(0xFF000000),
-                            textAlign = TextAlign.Right
+                    sessionName?.let {
+                        Text(
+                            text = it, style = TextStyle(
+                                fontSize = 25.sp,
+                                fontFamily = FontFamily(font),
+                                fontWeight = FontWeight(400),
+                                color = Color(0xFF000000),
+                                textAlign = TextAlign.Right
+                            )
                         )
-                    )
+                    }
                 }
             }
 
@@ -193,7 +196,7 @@ fun history(navController: NavController) {
                     .verticalScroll(rememberScrollState()),
             ) {
 
-                for (i in 1..sessionStatistics.size) {
+                for (i in 1..sessionStatisticsMap.size) {
                     Row(
                         modifier = Modifier
                             .width(390.dp)
@@ -220,16 +223,13 @@ fun history(navController: NavController) {
                             verticalArrangement = Arrangement.Center
                         ) {
 
-                            Text(
-                                text = sessionStatistics[i].toString(),
-                                style = TextStyle(
+                            Text(text = sessionStatisticsMap[i].toString(), style = TextStyle(
                                     fontSize = 20.sp,
                                     fontFamily = FontFamily(font),
                                     fontWeight = FontWeight(400),
                                     color = Color(0xFF000000),
                                     textAlign = TextAlign.Center
-                                )
-                            )
+                                ))
 
 
                             Text(
@@ -262,7 +262,7 @@ fun history(navController: NavController) {
                             )
 
                             Text(
-                                text = "تاریخ: " + sessionDate[i],
+                                text = "تاریخ: " + sessionDateMap[i],
                                 style = TextStyle(
                                     fontSize = 15.sp,
                                     fontFamily = FontFamily(font),

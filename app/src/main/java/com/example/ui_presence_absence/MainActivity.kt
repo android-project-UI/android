@@ -46,7 +46,9 @@ sealed class Destination(val route: String) {
         fun createLessonId(lessonId: String) = "Class/$lessonId"
     }
     object EditPage : Destination("EditPage")
-    object History : Destination("History")
+    object History : Destination("History/{lessonId}"){
+        fun createLessonId(lessonId: String) = "History/$lessonId"
+    }
     object HozorGhiab : Destination("HozorGhiab/{lessonId}"){
         fun createLessonId(lessonId: String) = "HozorGhiab/$lessonId"
     }
@@ -99,7 +101,10 @@ fun NavigationAppHost(navController: NavHostController) {
             val lessonId = navBackStackEntry.arguments?.getString("lessonId")
             lessonId?.let { ShowClass(navController = navController, lessonId = it) }}
 
-        composable(Destination.History.route) { history(navController) }
+        composable(Destination.History.route) { navBackStackEntry ->
+            val lessonId = navBackStackEntry.arguments?.getString("lessonId")
+            lessonId?.let { history(navController, it) }
+        }
         composable(Destination.EditPage.route) { EditPage(navController) }
 
         composable(Destination.HozorGhiab.route) { navBackStackEntry ->

@@ -226,7 +226,6 @@ fun ShowClass(navController: NavController, lessonId: String) {
                             )
                         )
                     }
-
                 }
                 Row(
                     modifier = Modifier
@@ -237,7 +236,10 @@ fun ShowClass(navController: NavController, lessonId: String) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(
-                        onClick = { navController.navigate(Destination.History.route) },
+                        onClick = {
+                                val route = Destination.History.createLessonId(lessonId)
+                                navController.navigate(route)
+                             },
                         modifier = Modifier
                             .height(180.dp)
                             .width(screenWidth.dp / 2 - 20.dp),

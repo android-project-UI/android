@@ -33,6 +33,10 @@ class Lesson(val id: String, val lessonName: String, var master: Master, val les
     fun getAllStudents(): MutableList<Student> {
         return this.allStudents
     }
+
+    fun getAllSessions(): MutableCollection<Session> {
+        return this.allSessions.values
+    }
 }
 
 fun getLessonOfMaster(master: Master): MutableList<Lesson> {
