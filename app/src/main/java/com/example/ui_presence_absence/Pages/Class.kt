@@ -204,7 +204,10 @@ fun ShowClass(navController: NavController, lessonId: String) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(
-                        onClick = { navController.navigate(Destination.HozorGhiab.route) },
+                        onClick = {
+                                    val route = Destination.HozorGhiab.createLessonId(lessonId)
+                                    navController.navigate(route)
+                        },
                         modifier = Modifier
                             .height(180.dp)
                             .width(screenWidth.dp),

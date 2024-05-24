@@ -1,6 +1,8 @@
 package com.example.ui_presence_absence.Pages
 
+import android.content.Context
 import android.os.Build
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -49,7 +52,9 @@ import java.time.format.DateTimeFormatter
 
 @Preview
 @Composable
-fun hozorGhiab(navController: NavController) {
+fun hozorGhiab(navController: NavController, lessonId: String) {
+
+    val context = LocalContext.current
 
     val screenWidth = 420
     val screenHeight = 740
@@ -63,7 +68,7 @@ fun hozorGhiab(navController: NavController) {
     }
     val current = LocalDateTime.now().format(formatter)
 
-    val lesson = getLesson("2")
+    val lesson = getLesson(lessonId)
 
 
     val sessionName = lesson?.lessonName
@@ -297,17 +302,21 @@ fun hozorGhiab(navController: NavController) {
                     .height(90.dp)
             ) {
                 Button(
-                    onClick = { // navController.navigate(Destination.EditPage.route)
+                    onClick = { //
 
-                        val newSession = Session(sessionName!! + current.toString(),
-                            sessionName!!, current.toString())
+                                    val newSession = Session(sessionName!! + current.toString(),
+                                        sessionName!!, current.toString())
 
-                        for(key in studentStateMap.keys)
-                                      if (studentStateMap[key] == true){
-                                          val student = getStudent(key)
-                                          newSession.addStudent(student!!)
-                                      }
-                        lesson.addSession(current.toString(), newSession)
+                                    for(key in studentStateMap.keys)
+                                        if (studentStateMap[key] == true){
+                                              val student = getStudent(key)
+                                              newSession.addStudent(student!!)
+                                          }
+                                    lesson.addSession(current.toString(), newSession)
+                                    ShowEnd(context)
+
+                                    val route = Destination.EachClass.createLessonId(lessonId)
+                                    navController.navigate(route)
                               },
                     modifier = Modifier
                         .width(screenWidth.dp)
@@ -367,4 +376,8 @@ fun hozorGhiab(navController: NavController) {
             }
         }
     }
+}
+
+fun ShowEnd(context: Context){
+    Toast.makeText(context, "جلسه با موفقیت ثبت شد.", Toast.LENGTH_LONG).show()
 }
