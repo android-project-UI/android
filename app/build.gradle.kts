@@ -62,11 +62,21 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.ui.test.junit4.android)
     implementation(libs.androidx.navigation.testing)
+    implementation("io.ktor:ktor-client-core:2.1.0")
+    implementation("io.ktor:ktor-client-cio:2.1.0")
+    implementation("io.ktor:ktor-client-json:2.1.0")
+    implementation("io.ktor:ktor-client-serialization:2.1.0")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.1.0")
+
+
+
+    implementation(libs.transport.runtime)
+    implementation(libs.firebase.dataconnect)
 
     testImplementation(libs.junit)
 
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+//    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
 
