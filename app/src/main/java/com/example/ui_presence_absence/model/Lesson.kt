@@ -1,11 +1,28 @@
 package com.example.ui_presence_absence.model
+
 import kotlin.collections.mutableListOf
 
-
+/**
+ * A global map to store all lessons.
+ */
 val allLessons = mutableMapOf<String, Lesson>()
 
-class Lesson(val id: String, val lessonName: String, var master: Master, val lessonUnit: Int,
-    val time: String){
+/**
+ * Represents a lesson with its details.
+ *
+ * @property id The unique identifier for the lesson.
+ * @property lessonName The name of the lesson.
+ * @property master The master/teacher of the lesson.
+ * @property lessonUnit The unit/credit of the lesson.
+ * @property time The schedule time of the lesson.
+ */
+class Lesson(
+    val id: String,
+    val lessonName: String,
+    var master: Master,
+    val lessonUnit: Int,
+    val time: String
+) {
 
     private var allSessions = mutableMapOf<String, Session>()
     private var allStudents = mutableListOf<Student>()
@@ -14,46 +31,92 @@ class Lesson(val id: String, val lessonName: String, var master: Master, val les
         allLessons.put(id, this)
     }
 
-    fun addSession(date:String, session: Session) {
+    /**
+     * Adds a session to the lesson.
+     *
+     * @param date The date of the session.
+     * @param session The session object.
+     */
+    fun addSession(date: String, session: Session) {
         this.allSessions.put(this.lessonName + '-' + date, session)
     }
 
-    fun addStudent(student: Student){
+    /**
+     * Adds a student to the lesson.
+     *
+     * @param student The student object.
+     */
+    fun addStudent(student: Student) {
         this.allStudents.add(student)
     }
 
+    /**
+     * Gets the number of sessions for the lesson.
+     *
+     * @return The number of sessions.
+     */
     fun getNumberOfSessions(): Int {
         return allSessions.size
     }
 
+    /**
+     * Gets the number of students in the lesson.
+     *
+     * @return The number of students.
+     */
     fun getNumberOfStudents(): Int {
         return allStudents.size
     }
 
+    /**
+     * Gets all students in the lesson.
+     *
+     * @return A list of all students.
+     */
     fun getAllStudents(): MutableList<Student> {
         return this.allStudents
     }
 
+    /**
+     * Gets all sessions of the lesson.
+     *
+     * @return A collection of all sessions.
+     */
     fun getAllSessions(): MutableCollection<Session> {
         return this.allSessions.values
     }
 }
 
+/**
+ * Gets all lessons taught by a specific master.
+ *
+ * @param master The master whose lessons are to be retrieved.
+ * @return A list of lessons taught by the specified master.
+ */
 fun getLessonOfMaster(master: Master): MutableList<Lesson> {
     val lessons = mutableListOf<Lesson>()
 
     for (lesson in allLessons.values)
-        if(lesson.master == master)
+        if (lesson.master == master)
             lessons.add(lesson)
 
     return lessons
 }
 
+/**
+ * Gets a lesson by its ID.
+ *
+ * @param lessonId The ID of the lesson to retrieve.
+ * @return The lesson object if found, otherwise null.
+ */
 fun getLesson(lessonId: String): Lesson? {
     return allLessons.get(lessonId)
 }
 
-fun createLesson(){
+/**
+ * Creates sample lessons, masters, and students, and assigns students to lessons.
+ */
+fun createLesson() {
     val master1 = getMaster("9910")
     val master2 = getMaster("9911")
     val master3 = getMaster("9912")
@@ -75,13 +138,9 @@ fun createLesson(){
     val s15 = getStudent("993623044")
     val s16 = getStudent("993623045")
 
-    val l1 = master1?.let { Lesson("1", "ساختمان های داده", it, 3,
-        "شنبه 10-12, یکشنبه 8-10") }
-    val l2 = master2?.let { Lesson("2", "مبانی هوش مصنوعی", it, 3,
-        "دوشنبه 10-12, شنبه 8-10") }
-    val l3 = master3?.let { Lesson("3", "ریزپردازنده", it, 3,
-        "چهارشنبه 10-12") }
-
+    val l1 = master1?.let { Lesson("1", "ساختمان های داده", it, 3, "شنبه 10-12, یکشنبه 8-10") }
+    val l2 = master2?.let { Lesson("2", "مبانی هوش مصنوعی", it, 3, "دوشنبه 10-12, شنبه 8-10") }
+    val l3 = master3?.let { Lesson("3", "ریزپردازنده", it, 3, "چهارشنبه 10-12") }
 
     if (l1 != null) {
         s1?.let { l1.addStudent(it) }

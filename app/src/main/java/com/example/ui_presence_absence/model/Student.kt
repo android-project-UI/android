@@ -1,19 +1,42 @@
 package com.example.ui_presence_absence.model
 
+/**
+ * A global map to store all students.
+ */
 private var allStudent = mutableMapOf<String, Student>()
 
-
-class Student(val studentId: String, val fullName: String, val image: String,
-              val presencePercentage: Double){
+/**
+ * Represents a student with their details.
+ *
+ * @property studentId The unique identifier for the student.
+ * @property fullName The full name of the student.
+ * @property image The image/URL of the student's picture.
+ * @property presencePercentage The presence percentage of the student.
+ */
+class Student(
+    val studentId: String,
+    val fullName: String,
+    val image: String,
+    val presencePercentage: Double
+) {
     init {
         allStudent.put(studentId, this)
     }
 }
 
+/**
+ * Retrieves a student by their ID.
+ *
+ * @param studentId The ID of the student to retrieve.
+ * @return The student object if found, otherwise null.
+ */
 fun getStudent(studentId: String): Student? {
     return allStudent[studentId]
 }
 
+/**
+ * Creates sample students and adds them to the global students map.
+ */
 fun createStudents() {
     val s1 = Student("993623030", "امیر فیض", "user.png", 0.2)
     val s2 = Student("993623031", "کاظم هرندی", "user.png", 0.9)
